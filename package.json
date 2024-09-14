@@ -1,0 +1,19 @@
+{
+  "name": "cursor-magic",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/takutakuaoao/cursor-magic.git"
+  },
+  "author": "Takuya Aotsuka <takuya.aotsuka.161@gmail.com> (https://github.com/takutakuaoao)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/takutakuaoao/cursor-magic/issues"
+  },
+  "homepage": "https://github.com/takutakuaoao/cursor-magic#readme"
+}
