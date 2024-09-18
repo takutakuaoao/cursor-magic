@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "tsc": "npx tsc",
-    "example": "npx tsc && cd ./example/ && npm i ../ && cd ..",
+    "example": "rm -rf ./example/node_modules && npx tsc && cd ./example/ && npm i ../ && cd ..",
     "test": "jest"
   },
   "repository": {
