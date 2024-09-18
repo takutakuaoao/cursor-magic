@@ -4,6 +4,8 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
+    "tsc": "npx tsc",
+    "example": "npx tsc && cd ./example/ && npm i ../ && cd ..",
     "test": "jest"
   },
   "repository": {
@@ -23,7 +25,7 @@
     "typescript": "^5.6.2"
   },
   "files": [
-    "dist",
-    "src"
+    "dist/",
+    "src/"
   ]
 }

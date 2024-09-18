@@ -1,0 +1,14 @@
+{
+  "name": "example",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Takuya Aotsuka <takuya.aotsuka.161@gmail.com> (https://github.com/takutakuaoao)",
+  "license": "MIT",
+  "dependencies": {
+    "cursor-magic": "file:.."
+  }
+}
