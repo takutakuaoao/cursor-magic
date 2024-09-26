@@ -1,5 +1,6 @@
 export interface CursorDomOperator {
     createDom(args: CreateDomArgs): boolean
+    addEventListener(domName: string, eventType: 'mousemove', eventListener: (x: number, y: number) => void): boolean
 }
 
 export type CreateDomArgs = {

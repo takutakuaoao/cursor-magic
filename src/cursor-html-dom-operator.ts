@@ -1,6 +1,6 @@
-import { CreateDomArgs, DomSpecifiedType } from "./cursor-dom-operator";
+import { CreateDomArgs, CursorDomOperator, DomSpecifiedType } from "./cursor-dom-operator";
 
-export class CursorHTMLDomOperator {
+export class CursorHTMLDomOperator implements CursorDomOperator {
     createDom(args: CreateDomArgs): boolean {
         const parent = this.findParentDom(args.parentDom)
 
@@ -11,6 +11,22 @@ export class CursorHTMLDomOperator {
         const newElm = this.createEmptyNewDom(args.tagName, args.specifiedType, args.specifiedName)
 
         parent.insertBefore(newElm, parent.firstChild)
+
+        return true
+    }
+
+    addEventListener(domName: string, eventType: 'mousemove', eventListener: (x: number, y: number) => void): boolean {
+        const target = this.findParentDom(domName)
+
+        if (target === null) {
+            return false
+        }
+
+        target.addEventListener(eventType, (e) => {
+            if (eventType === 'mousemove' && e instanceof MouseEvent) {
+                eventListener(e.clientX, e.clientY)
+            }
+        })
 
         return true
     }
