@@ -1,10 +1,19 @@
 {
   "name": "cursor-magic",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "",
-  "main": "index.js",
+  "main": "./dist/cursor-magic.umd.cjs",
+  "module": "./dist/cursor-magic.js",
+  "exports": {
+    ".": {
+      "import": "./dist/cursor-magic.js",
+      "require": "./dist/cursor-magic.umd.cjs"
+    }
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npx vite build",
+    "test": "jest",
+    "minor": "npm version minor"
   },
   "repository": {
     "type": "git",
@@ -15,5 +24,20 @@
   "bugs": {
     "url": "https://github.com/takutakuaoao/cursor-magic/issues"
   },
-  "homepage": "https://github.com/takutakuaoao/cursor-magic#readme"
+  "homepage": "https://github.com/takutakuaoao/cursor-magic#readme",
+  "devDependencies": {
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.5.0",
+    "@types/jest": "^29.5.13",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "ts-jest": "^29.2.5",
+    "typescript": "^5.6.2",
+    "vite": "^5.4.6"
+  },
+  "files": [
+    "dist/",
+    "src/"
+  ],
+  "type": "module"
 }
