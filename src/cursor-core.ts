@@ -32,6 +32,10 @@ export class CursorCore {
     setMouseMoveEvent(event: (x: number, y: number) => void): void {
         this.operator.addEventListener(this.cursorAreaDom, 'mousemove', event)
     }
+
+    updatedMousePosition(position: { x: number, y: number }): void {
+        this.operator.moveDom(`#${this.cursorID}`, position)
+    }
 }
 
 export const ErrorMessages = {
