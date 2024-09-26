@@ -5,6 +5,6 @@ export function createCursorMagic() {
     const cursor = new CursorCore(new CursorHTMLDomOperator())
     cursor.createCursor()
     cursor.setMouseMoveEvent((x: number, y: number) => {
-        console.log('fired mousemove event!!!!', 'x: ', x, 'y: ', y)
+        cursor.updatedMousePosition({ x: x, y: y })
     })
 }
