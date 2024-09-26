@@ -24,7 +24,8 @@ export class CursorCore {
             parentDom: this.cursorAreaDom,
             tagName: 'div',
             specifiedType: 'id',
-            specifiedName: this.cursorID
+            specifiedName: this.cursorID,
+            style: this.makeStyle()
         })
 
         if (!result) {
@@ -39,6 +40,21 @@ export class CursorCore {
     updatedMousePosition(position: { x: number, y: number }): void {
         this.operator.moveDom(`#${this.cursorID}`, this.calculateCursorPosition(position))
     }
+
+    private makeStyle() {
+        return {
+            width: `${this.cursorSize}px`,
+            height: `${this.cursorSize}px`,
+            transition: '0.2s',
+            transitionTimingFunction: 'ease-out',
+            position: 'absolute',
+            top: '0px',
+            left: '0px',
+            backgroundColor: '#7a7a7ae3',
+            borderRadius: '100%'
+        }
+    }
+
     private calculateCursorPosition(mousePosition: { x: number, y: number }): { x: number, y: number } {
         return {
             x: mousePosition.x - (this.cursorSize / 2),

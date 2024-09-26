@@ -8,7 +8,8 @@ export type CreateDomArgs = {
     parentDom: string,
     tagName: keyof HTMLElementTagNameMap,
     specifiedType: DomSpecifiedType,
-    specifiedName: string
+    specifiedName: string,
+    style?: Partial<CSSStyleDeclaration>
 }
 
 export type DomSpecifiedType = 'id' | 'className'

@@ -43,6 +43,31 @@ describe('createDom', () => {
         expect(result).toBeFalsy()
         expect(document.querySelector('.notFoundParentDom > div#failed-test')).toBeNull()
     })
+    test('apply css style', () => {
+        insertNewDom('div', { name: 'id', value: 'test' })
+        const operator = new CursorHTMLDomOperator()
+        operator.createDom({
+            parentDom: 'div#test',
+            tagName: 'div',
+            specifiedType: 'id',
+            specifiedName: 'stylingTest',
+            style: {
+                width: '50px',
+                height: '30px',
+                transitionTimingFunction: 'ease-out'
+            }
+        })
+
+        const styledDom = document.querySelector('div#stylingTest')
+
+        if (!(styledDom instanceof HTMLElement)) {
+            fail('div#stylingTest dom must be HTMLElement.')
+        }
+
+        expect(styledDom.style.width).toBe('50px')
+        expect(styledDom.style.height).toBe('30px')
+        expect(styledDom.style.transitionTimingFunction).toBe('ease-out')
+    })
 })
 
 describe('addEventListener', () => {

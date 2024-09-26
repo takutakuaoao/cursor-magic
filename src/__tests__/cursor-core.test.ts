@@ -2,10 +2,10 @@ import { CreateDomArgs, CursorDomOperator } from '../cursor-dom-operator'
 import { CursorCore, ErrorMessages } from '../cursor-core'
 
 describe('createCursor', () => {
-    test('called once createDom method', () => {
+    test('called createDom method', () => {
         const mock = newCursorDomOperatorMock({ createDomReturn: true })
         const cursorID = 'test'
-        const cursorCore = new CursorCore(new mock.mock, { cursorID: cursorID })
+        const cursorCore = new CursorCore(new mock.mock, { cursorID: cursorID, cursorSize: 50 })
 
         cursorCore.createCursor()
 
@@ -13,7 +13,18 @@ describe('createCursor', () => {
             parentDom: 'body',
             tagName: 'div',
             specifiedType: 'id',
-            specifiedName: cursorID
+            specifiedName: cursorID,
+            style: {
+                width: '50px',
+                height: '50px',
+                transition: '0.2s',
+                transitionTimingFunction: 'ease-out',
+                position: 'absolute',
+                top: '0px',
+                left: '0px',
+                backgroundColor: 'blue',
+                borderRadius: '100%'
+            }
         })
     })
     test('throw error if crateDom failed', () => {

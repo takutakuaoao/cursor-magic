@@ -1,4 +1,5 @@
 import { CreateDomArgs, CursorDomOperator, DomSpecifiedType } from "./cursor-dom-operator";
+import { toKebabCase } from "./utils";
 
 export class CursorHTMLDomOperator implements CursorDomOperator {
     createDom(args: CreateDomArgs): boolean {
@@ -9,6 +10,10 @@ export class CursorHTMLDomOperator implements CursorDomOperator {
         }
 
         const newElm = this.createEmptyNewDom(args.tagName, args.specifiedType, args.specifiedName)
+
+        if (args.style) {
+            this.setDomStyle(newElm, args.style)
+        }
 
         parent.insertBefore(newElm, parent.firstChild)
 
@@ -57,5 +62,15 @@ export class CursorHTMLDomOperator implements CursorDomOperator {
 
     private findParentDom(targetSelector: string) {
         return document.querySelector(targetSelector)
+    }
+
+    private setDomStyle(dom: HTMLElement, style: Partial<CSSStyleDeclaration>): HTMLElement {
+        for (const [key, value] of Object.entries(style)) {
+            if (typeof value === 'string') {
+                dom.style.setProperty(toKebabCase(key), value)
+            }
+        }
+
+        return dom
     }
 }
