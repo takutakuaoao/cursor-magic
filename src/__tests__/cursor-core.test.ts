@@ -42,11 +42,11 @@ describe('setMouseMoveEvent', () => {
 describe('updatedMousePosition', () => {
     test('called once dom move', () => {
         const mock = newCursorDomOperatorMock()
-        const cursorCore = new CursorCore(new mock.mock, { cursorID: 'cursorID' })
+        const cursorCore = new CursorCore(new mock.mock, { cursorID: 'cursorID', cursorSize: 50 })
 
-        cursorCore.updatedMousePosition({ x: 10, y: 20 })
+        cursorCore.updatedMousePosition({ x: 100, y: 200 })
 
-        mock.assertions.onceCalledMoveDom('#cursorID', { x: 10, y: 20 })
+        mock.assertions.onceCalledMoveDom('#cursorID', { x: 75, y: 175 })
     })
 })
 
