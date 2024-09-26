@@ -100,6 +100,28 @@ describe('addEventListener', () => {
     })
 })
 
+describe('moveDom', () => {
+    test('moved target dom', () => {
+        insertNewDom('div', { name: 'id', value: 'targetDOM' })
+
+        const operator = new CursorHTMLDomOperator()
+        operator.moveDom('div#targetDOM', { x: 10, y: 20 })
+
+        const movedDom = document.querySelector('div#targetDOM')
+
+        assertCurrentDomPosition({ x: 10, y: 20 }, movedDom)
+
+        function assertCurrentDomPosition(position: { x: number, y: number }, dom: Element | null) {
+            if (!(dom instanceof HTMLElement)) {
+                fail('Dom must be HTMLElement.')
+            }
+
+            expect(dom?.style.left).toBe(`${position.x}px`)
+            expect(dom?.style.top).toBe(`${position.y}px`)
+        }
+    })
+})
+
 function insertNewDom(domTag: string, attribute?: { name: string, value: string }) {
     const newElm = document.createElement(domTag)
 

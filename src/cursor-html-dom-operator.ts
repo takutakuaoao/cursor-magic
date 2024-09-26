@@ -31,6 +31,21 @@ export class CursorHTMLDomOperator implements CursorDomOperator {
         return true
     }
 
+    moveDom(targetDom: string, position: { x: number; y: number; }): void {
+        const target = this.findParentDom(targetDom)
+
+        if (target === null) {
+            return
+        }
+
+        if (!(target instanceof HTMLElement)) {
+            return
+        }
+
+        target.style.left = `${position.x}px`
+        target.style.top = `${position.y}px`
+    }
+
     private createEmptyNewDom(tagName: keyof HTMLElementTagNameMap, specifiedType: DomSpecifiedType, specifiedName: string) {
         const newElm = document.createElement(tagName)
         const attributeName = specifiedType === 'id' ? 'id' : 'class'
