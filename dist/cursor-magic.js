@@ -1,12 +1,18 @@
 var u = Object.defineProperty;
 var a = (t, e, r) => e in t ? u(t, e, { enumerable: !0, configurable: !0, writable: !0, value: r }) : t[e] = r;
-var n = (t, e, r) => a(t, typeof e != "symbol" ? e + "" : e, r);
-class c {
+var c = (t, e, r) => a(t, typeof e != "symbol" ? e + "" : e, r);
+class n {
   constructor(e, r) {
-    n(this, "cursorID", "cursorMagic");
-    n(this, "cursorAreaDom", "body");
-    n(this, "cursorSize", 30);
-    this.operator = e, this.options = r, r && (this.cursorID = r.cursorID ?? this.cursorID, this.cursorAreaDom = r.cursorAreaDom ?? this.cursorAreaDom, this.cursorSize = r.cursorSize ?? this.cursorSize);
+    c(this, "cursorID", "cursorMagic");
+    c(this, "cursorAreaDom", "body");
+    c(this, "cursorSize", 30);
+    c(this, "cursorStyle", {
+      transition: "0.2s",
+      transitionTimingFunction: "ease-out",
+      backgroundColor: "#7a7a7ae3",
+      borderRadius: "100%"
+    });
+    this.operator = e, this.options = r, r && (this.cursorID = r.cursorID ?? this.cursorID, this.cursorAreaDom = r.cursorAreaDom ?? this.cursorAreaDom, this.cursorSize = r.cursorSize ?? this.cursorSize, this.cursorStyle = r.cursorStyle ? { ...this.cursorStyle, ...r.cursorStyle } : this.cursorStyle), console.log("cursorstyle"), console.log("%o", this.cursorStyle), console.log("boolean", r == null ? void 0 : r.cursorStyle);
   }
   createCursor() {
     if (!this.operator.createDom({
@@ -28,13 +34,10 @@ class c {
     return {
       width: `${this.cursorSize}px`,
       height: `${this.cursorSize}px`,
-      transition: "0.2s",
-      transitionTimingFunction: "ease-out",
       position: "absolute",
       top: "0px",
       left: "0px",
-      backgroundColor: "#7a7a7ae3",
-      borderRadius: "100%"
+      ...this.cursorStyle
     };
   }
   calculateCursorPosition(e) {
@@ -54,7 +57,7 @@ function m(t) {
     return "-" + e.replace(/ /g, "").toLowerCase();
   }), t;
 }
-class f {
+class h {
   createDom(e) {
     const r = this.findParentDom(e.parentDom);
     if (r === null)
@@ -85,12 +88,12 @@ class f {
     return e;
   }
 }
-function h() {
-  const t = new c(new f());
-  t.createCursor(), t.setMouseMoveEvent((e, r) => {
-    t.updatedMousePosition({ x: e, y: r });
+function d(t) {
+  const e = new n(new h(), t);
+  e.createCursor(), e.setMouseMoveEvent((r, o) => {
+    e.updatedMousePosition({ x: r, y: o });
   });
 }
 export {
-  h as createCursorMagic
+  d as createCursorMagic
 };
