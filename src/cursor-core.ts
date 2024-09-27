@@ -1,21 +1,31 @@
 import { CursorDomOperator } from "./cursor-dom-operator";
 
-type Options = {
+export type CursorCoreOptions = {
     cursorID?: string
     cursorAreaDom?: string
     cursorSize?: number
+    cursorStyle?: CustomableCursorStyle
 }
+
+type CustomableCursorStyle = Partial<Omit<CSSStyleDeclaration, 'width' | 'height' | 'top' | 'left' | 'absolute'>>
 
 export class CursorCore {
     private cursorID: string = 'cursorMagic'
     private cursorAreaDom: string = 'body'
     private cursorSize: number = 30
+    private cursorStyle: CustomableCursorStyle = {
+        transition: '0.2s',
+        transitionTimingFunction: 'ease-out',
+        backgroundColor: '#7a7a7ae3',
+        borderRadius: '100%'
+    }
 
-    constructor(private operator: CursorDomOperator, private options?: Options) {
+    constructor(private operator: CursorDomOperator, private options?: CursorCoreOptions) {
         if (options) {
             this.cursorID = options.cursorID ?? this.cursorID
             this.cursorAreaDom = options.cursorAreaDom ?? this.cursorAreaDom
             this.cursorSize = options.cursorSize ?? this.cursorSize
+            this.cursorStyle = options.cursorStyle ? { ...this.cursorStyle, ...options.cursorStyle } : this.cursorStyle
         }
     }
 
@@ -41,17 +51,14 @@ export class CursorCore {
         this.operator.moveDom(`#${this.cursorID}`, this.calculateCursorPosition(position))
     }
 
-    private makeStyle() {
+    private makeStyle(): Partial<CSSStyleDeclaration> {
         return {
             width: `${this.cursorSize}px`,
             height: `${this.cursorSize}px`,
-            transition: '0.2s',
-            transitionTimingFunction: 'ease-out',
             position: 'absolute',
             top: '0px',
             left: '0px',
-            backgroundColor: '#7a7a7ae3',
-            borderRadius: '100%'
+            ...this.cursorStyle
         }
     }
 

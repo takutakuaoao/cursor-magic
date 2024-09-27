@@ -1,8 +1,9 @@
-import { CursorCore } from "./cursor-core";
+import { CursorCore, CursorCoreOptions } from "./cursor-core";
 import { CursorHTMLDomOperator } from "./cursor-html-dom-operator";
 
-export function createCursorMagic() {
-    const cursor = new CursorCore(new CursorHTMLDomOperator())
+export function createCursorMagic(options?: CursorCoreOptions) {
+    const cursor = new CursorCore(new CursorHTMLDomOperator(), options)
+
     cursor.createCursor()
     cursor.setMouseMoveEvent((x: number, y: number) => {
         cursor.updatedMousePosition({ x: x, y: y })
