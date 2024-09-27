@@ -9,7 +9,11 @@
     <script type="module">
       import { createCursorMagic } from "./dist/cursor-magic.js";
 
-      createCursorMagic();
+      createCursorMagic({
+        cursorID: "customCursorID",
+        cursorSize: 50,
+        cursorStyle: { backgroundColor: "#d95858b8", border: "2px solid red" },
+      });
     </script>
   </body>
 </html>
