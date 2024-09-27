@@ -22,6 +22,34 @@ describe('createCursor', () => {
                 position: 'absolute',
                 top: '0px',
                 left: '0px',
+                backgroundColor: '#7a7a7ae3',
+                borderRadius: '100%'
+            }
+        })
+    })
+    test('can change some of the default cursor styling', () => {
+        const mock = newCursorDomOperatorMock({ createDomReturn: true })
+        const cursorCore = new CursorCore(new mock.mock, {
+            cursorStyle: {
+                backgroundColor: 'blue'
+            }
+        })
+
+        cursorCore.createCursor()
+
+        mock.assertions.onceCalledCreateDom({
+            parentDom: 'body',
+            tagName: 'div',
+            specifiedType: 'id',
+            specifiedName: 'cursorMagic',
+            style: {
+                width: '30px',
+                height: '30px',
+                transition: '0.2s',
+                transitionTimingFunction: 'ease-out',
+                position: 'absolute',
+                top: '0px',
+                left: '0px',
                 backgroundColor: 'blue',
                 borderRadius: '100%'
             }
