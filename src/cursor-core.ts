@@ -1,6 +1,6 @@
 import { CursorDomOperator } from "./cursor-dom-operator";
 
-type Options = {
+export type CursorCoreOptions = {
     cursorID?: string
     cursorAreaDom?: string
     cursorSize?: number
@@ -20,7 +20,7 @@ export class CursorCore {
         borderRadius: '100%'
     }
 
-    constructor(private operator: CursorDomOperator, private options?: Options) {
+    constructor(private operator: CursorDomOperator, private options?: CursorCoreOptions) {
         if (options) {
             this.cursorID = options.cursorID ?? this.cursorID
             this.cursorAreaDom = options.cursorAreaDom ?? this.cursorAreaDom
