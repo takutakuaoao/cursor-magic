@@ -1,6 +1,6 @@
 {
   "name": "cursor-magic",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "",
   "main": "./dist/cursor-magic.umd.cjs",
   "module": "./dist/cursor-magic.js",
@@ -13,7 +13,8 @@
   "scripts": {
     "build": "npx vite build",
     "test": "jest",
-    "minor": "npm version minor"
+    "minor": "npm version minor",
+    "patch": "npm version patch"
   },
   "repository": {
     "type": "git",
