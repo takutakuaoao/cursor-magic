@@ -13,7 +13,8 @@
   "scripts": {
     "build": "npx vite build",
     "test": "jest",
-    "minor": "npm version minor"
+    "minor": "npm version minor",
+    "patch": "npm version patch"
   },
   "repository": {
     "type": "git",
