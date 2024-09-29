@@ -112,6 +112,27 @@ describe('updatedMousePosition', () => {
     })
 })
 
+describe('setMouseEnterEvent', () => {
+    const operator = newCursorDomOperatorMock()
+    const cursorCore = new CursorCore(new operator.mock, { cursorAreaDom: 'body' })
+
+    const event = () => { }
+    cursorCore.setMouseEnterEvent(event)
+
+    operator.assertions.onceCalledAddEventListener('body', { type: 'mouseenter', listener: event })
+})
+
+describe('showCursorPointer', () => {
+    test('once the showDom method of operator was called if success', () => {
+        const operator = newCursorDomOperatorMock()
+        const cursorCore = new CursorCore(new operator.mock, { cursorID: 'testID' })
+
+        cursorCore.showCursorPointer()
+
+        operator.assertions.onceCalledShowDom('#testID')
+    })
+})
+
 function newCursorDomOperatorMock(methodsReturn: {
     createDomReturn?: boolean
     addEventListener?: boolean
@@ -120,12 +141,14 @@ function newCursorDomOperatorMock(methodsReturn: {
     const addEventListener = jest.fn().mockReturnValue(methodsReturn.addEventListener)
     const moveDom = jest.fn()
     const hiddenDom = jest.fn()
+    const showDom = jest.fn()
 
     const mock = jest.fn<CursorDomOperator, []>().mockImplementation(() => ({
         createDom: createDom,
         addEventListener: addEventListener,
         moveDom: moveDom,
-        hiddenDom: hiddenDom
+        hiddenDom: hiddenDom,
+        showDom: showDom
     }))
 
     return {
@@ -149,6 +172,10 @@ function newCursorDomOperatorMock(methodsReturn: {
             onceCalledHiddenDom: (targetDom: string) => {
                 expect(hiddenDom).toHaveBeenCalledTimes(1)
                 expect(hiddenDom.mock.calls[0]).toStrictEqual([targetDom])
+            },
+            onceCalledShowDom: (targetDom: string) => {
+                expect(showDom).toHaveBeenCalledTimes(1)
+                expect(showDom.mock.calls[0]).toStrictEqual([targetDom])
             }
         }
 

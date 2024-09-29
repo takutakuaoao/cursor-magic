@@ -9,4 +9,5 @@ export function createCursorMagic(options?: CursorCoreOptions) {
         cursor.updatedMousePosition({ x: x, y: y })
     })
     cursor.setMouseLeaveEvent(() => cursor.hiddenCursorPointer())
+    cursor.setMouseEnterEvent(() => cursor.showCursorPointer())
 }

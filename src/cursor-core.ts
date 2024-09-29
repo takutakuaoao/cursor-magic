@@ -65,6 +65,20 @@ export class CursorCore {
         this.operator.hiddenDom(`#${this.cursorID}`)
     }
 
+    setMouseEnterEvent(event: () => void): void {
+        this.operator.addEventListener(
+            this.cursorAreaDom,
+            {
+                type: "mouseenter",
+                listener: event
+            }
+        )
+    }
+
+    showCursorPointer() {
+        this.operator.showDom(`#${this.cursorID}`)
+    }
+
     private makeStyle(): Partial<CSSStyleDeclaration> {
         return {
             width: `${this.cursorSize}px`,

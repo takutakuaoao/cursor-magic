@@ -14,3 +14,13 @@ test('if mouseout event was fired, the cursorMagic dom must be hidden.', () => {
 
     expect(document.querySelector('#testID')).not.toBeVisible()
 })
+
+test('if cursor is in screen, pointer is display on.', () => {
+    createCursorMagic({ cursorID: 'testID', cursorAreaDom: 'body' })
+
+    fireMouseEvent('body', 'mouseleave')
+    expect(document.querySelector('#testID')).not.toBeVisible()
+
+    fireMouseEvent('body', 'mouseenter')
+    expect(document.querySelector('#testID')).toBeVisible()
+})

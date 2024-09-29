@@ -42,6 +42,18 @@ class c {
   hiddenCursorPointer() {
     this.operator.hiddenDom(`#${this.cursorID}`);
   }
+  setMouseEnterEvent(e) {
+    this.operator.addEventListener(
+      this.cursorAreaDom,
+      {
+        type: "mouseenter",
+        listener: e
+      }
+    );
+  }
+  showCursorPointer() {
+    this.operator.showDom(`#${this.cursorID}`);
+  }
   makeStyle() {
     return {
       width: `${this.cursorSize}px`,
@@ -62,14 +74,14 @@ class c {
 const l = {
   failedCreateCursor: "Failed create cursorMagic dom"
 };
-function m(t) {
+function h(t) {
   return t = t.replace(/^ *?[A-Z]/, function(e) {
     return e.toLowerCase();
   }), t = t.replace(/_/g, "-"), t = t.replace(/ *?[A-Z]/g, function(e, r) {
     return "-" + e.replace(/ /g, "").toLowerCase();
   }), t;
 }
-class d {
+class m {
   createDom(e) {
     const r = this.findParentDom(e.parentDom);
     if (r === null)
@@ -80,16 +92,20 @@ class d {
   addEventListener(e, r) {
     const s = this.findParentDom(e);
     return s === null ? !1 : (s.addEventListener(r.type, (o) => {
-      r.type === "mousemove" && o instanceof MouseEvent && r.listener(o.clientX, o.clientY), r.type === "mouseleave" && r.listener();
+      r.type === "mousemove" && o instanceof MouseEvent && r.listener(o.clientX, o.clientY), r.type === "mouseleave" && r.listener(), r.type === "mouseenter" && r.listener();
     }), !0);
   }
   moveDom(e, r) {
     const s = this.findParentDom(e);
-    s !== null && s instanceof HTMLElement && (s.style.left = `${r.x}px`, s.style.top = `${r.y}px`);
+    s !== null && (s.style.left = `${r.x}px`, s.style.top = `${r.y}px`);
   }
   hiddenDom(e) {
     const r = this.findParentDom(e);
-    r === null || !(r instanceof HTMLElement) || (r.style.display = "none");
+    r !== null && (r.style.display = "none");
+  }
+  showDom(e) {
+    const r = this.findParentDom(e);
+    r !== null && (r.style.display = "block");
   }
   createEmptyNewDom(e, r, s) {
     const o = document.createElement(e), n = r === "id" ? "id" : "class";
@@ -100,16 +116,16 @@ class d {
   }
   setDomStyle(e, r) {
     for (const [s, o] of Object.entries(r))
-      typeof o == "string" && e.style.setProperty(m(s), o);
+      typeof o == "string" && e.style.setProperty(h(s), o);
     return e;
   }
 }
-function f(t) {
-  const e = new c(new d(), t);
+function p(t) {
+  const e = new c(new m(), t);
   e.createCursor(), e.setMouseMoveEvent((r, s) => {
     e.updatedMousePosition({ x: r, y: s });
-  }), e.setMouseLeaveEvent(() => e.hiddenCursorPointer());
+  }), e.setMouseLeaveEvent(() => e.hiddenCursorPointer()), e.setMouseEnterEvent(() => e.showCursorPointer());
 }
 export {
-  f as createCursorMagic
+  p as createCursorMagic
 };

@@ -5,6 +5,7 @@
 import "@testing-library/jest-dom";
 import { CursorHTMLDomOperator } from "../cursor-html-dom-operator";
 import { fireMouseEvent } from "./util";
+import { AddableEvent } from "../cursor-dom-operator";
 
 describe('createDom', () => {
     test('make dom', () => {
@@ -72,34 +73,34 @@ describe('createDom', () => {
 })
 
 describe('addEventListener', () => {
-    test('once called the event listener when fired the specified dom event.', () => {
-        const id = 'test'
-        insertNewDom('div', { name: 'id', value: id })
-
+    test.each`
+        eventType       | mouseEventOption                | expectEventListenerArgs
+        ${'mousemove'}  | ${{ clientX: 10, clientY: 20 }} | ${[10, 20]}
+        ${'mouseleave'} | ${undefined}                    | ${[]}
+        ${'mouseenter'} | ${undefined}                    | ${[]}
+    `('fired $eventType eventListener', ({ eventType, mouseEventOption, expectEventListenerArgs }) => {
         const eventListener = jest.fn()
-        const operator = new CursorHTMLDomOperator()
-
-        operator.addEventListener(`#${id}`, {
-            type: 'mousemove',
+        executeAddEventListener('body', {
+            type: eventType,
             listener: eventListener
-        })
+        }, mouseEventOption)
 
-        fireMouseEvent(`#${id}`, 'mousemove', { clientX: 10, clientY: 20 })
-
-        expect(eventListener).toHaveBeenCalledTimes(1)
-        expect(eventListener.mock.calls[0]).toStrictEqual([10, 20])
+        assertFiredAddedEventListener(eventListener, expectEventListenerArgs)
     })
-    test('if success, the added mouseout event listener fired.', () => {
-        const eventListener = jest.fn()
+
+    function executeAddEventListener(dom: string, event: AddableEvent, firedMouseEventOption?: MouseEventInit) {
         const operator = new CursorHTMLDomOperator()
 
-        operator.addEventListener('body', { type: 'mouseleave', listener: eventListener })
+        operator.addEventListener(dom, event)
 
-        fireMouseEvent('body', 'mouseleave')
+        fireMouseEvent(dom, event.type, firedMouseEventOption)
+    }
 
+    function assertFiredAddedEventListener(eventListener: jest.Mock, expectArgs: any[]) {
         expect(eventListener).toHaveBeenCalledTimes(1)
-        expect(eventListener.mock.calls[0]).toStrictEqual([])
-    })
+        expect(eventListener.mock.calls[0]).toStrictEqual(expectArgs)
+    }
+
     describe('[Learning Test] イベントリスナーに関する学習テスト', () => {
         const id = 'test'
 
@@ -173,11 +174,26 @@ describe('hiddenDom', () => {
     expect(target).not.toBeVisible()
 })
 
-function insertNewDom(domTag: string, attribute?: { name: string, value: string }) {
+describe('showDom', () => {
+    test('show the hidden dom', () => {
+        insertNewDom('div', { name: 'id', value: 'shownDom' }, true)
+
+        const operator = new CursorHTMLDomOperator()
+        operator.showDom('div#shownDom')
+
+        expect(document.querySelector('body > div#shownDom')).toBeVisible()
+    })
+})
+
+function insertNewDom(domTag: string, attribute?: { name: string, value: string }, isHidden?: true) {
     const newElm = document.createElement(domTag)
 
     if (attribute) {
         newElm.setAttribute(attribute.name, attribute.value)
+    }
+
+    if (isHidden) {
+        newElm.style.display = 'none'
     }
 
     document.body.appendChild(newElm)

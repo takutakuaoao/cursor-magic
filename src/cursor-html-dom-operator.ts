@@ -38,6 +38,10 @@ export class CursorHTMLDomOperator implements CursorDomOperator {
             if (event.type === 'mouseleave') {
                 event.listener()
             }
+
+            if (event.type === 'mouseenter') {
+                event.listener()
+            }
         })
 
         return true
@@ -50,10 +54,6 @@ export class CursorHTMLDomOperator implements CursorDomOperator {
             return
         }
 
-        if (!(target instanceof HTMLElement)) {
-            return
-        }
-
         target.style.left = `${position.x}px`
         target.style.top = `${position.y}px`
     }
@@ -61,11 +61,21 @@ export class CursorHTMLDomOperator implements CursorDomOperator {
     hiddenDom(targetDom: string): void {
         const target = this.findParentDom(targetDom)
 
-        if (target === null || !(target instanceof HTMLElement)) {
+        if (target === null) {
             return
         }
 
         target.style.display = 'none'
+    }
+
+    showDom(targetDom: string): void {
+        const target = this.findParentDom(targetDom)
+
+        if (target === null) {
+            return
+        }
+
+        target.style.display = 'block'
     }
 
     private createEmptyNewDom(tagName: keyof HTMLElementTagNameMap, specifiedType: DomSpecifiedType, specifiedName: string) {
@@ -77,7 +87,7 @@ export class CursorHTMLDomOperator implements CursorDomOperator {
         return newElm
     }
 
-    private findParentDom(targetSelector: string) {
+    private findParentDom(targetSelector: string): HTMLElement | null {
         return document.querySelector(targetSelector)
     }
 
