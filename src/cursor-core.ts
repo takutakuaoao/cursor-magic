@@ -41,6 +41,8 @@ export class CursorCore {
         if (!result) {
             throw new Error(ErrorMessages.failedCreateCursor)
         }
+
+        this.operator.hiddenDom(`#${this.cursorID}`)
     }
 
     setMouseMoveEvent(event: (x: number, y: number) => void): void {
