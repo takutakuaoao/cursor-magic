@@ -44,11 +44,25 @@ export class CursorCore {
     }
 
     setMouseMoveEvent(event: (x: number, y: number) => void): void {
-        this.operator.addEventListener(this.cursorAreaDom, 'mousemove', event)
+        this.operator.addEventListener(this.cursorAreaDom, {
+            type: 'mousemove',
+            listener: event
+        })
+    }
+
+    setMouseLeaveEvent(event: () => void): void {
+        this.operator.addEventListener(this.cursorAreaDom, {
+            type: 'mouseleave',
+            listener: event
+        })
     }
 
     updatedMousePosition(position: { x: number, y: number }): void {
         this.operator.moveDom(`#${this.cursorID}`, this.calculateCursorPosition(position))
+    }
+
+    hiddenCursorPointer(): void {
+        this.operator.hiddenDom(`#${this.cursorID}`)
     }
 
     private makeStyle(): Partial<CSSStyleDeclaration> {

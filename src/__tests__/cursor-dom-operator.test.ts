@@ -4,6 +4,7 @@
 
 import "@testing-library/jest-dom";
 import { CursorHTMLDomOperator } from "../cursor-html-dom-operator";
+import { fireMouseEvent } from "./util";
 
 describe('createDom', () => {
     test('make dom', () => {
@@ -78,12 +79,26 @@ describe('addEventListener', () => {
         const eventListener = jest.fn()
         const operator = new CursorHTMLDomOperator()
 
-        operator.addEventListener(`#${id}`, 'mousemove', eventListener)
+        operator.addEventListener(`#${id}`, {
+            type: 'mousemove',
+            listener: eventListener
+        })
 
         fireMouseEvent(`#${id}`, 'mousemove', { clientX: 10, clientY: 20 })
 
         expect(eventListener).toHaveBeenCalledTimes(1)
         expect(eventListener.mock.calls[0]).toStrictEqual([10, 20])
+    })
+    test('if success, the added mouseout event listener fired.', () => {
+        const eventListener = jest.fn()
+        const operator = new CursorHTMLDomOperator()
+
+        operator.addEventListener('body', { type: 'mouseleave', listener: eventListener })
+
+        fireMouseEvent('body', 'mouseleave')
+
+        expect(eventListener).toHaveBeenCalledTimes(1)
+        expect(eventListener.mock.calls[0]).toStrictEqual([])
     })
     describe('[Learning Test] イベントリスナーに関する学習テスト', () => {
         const id = 'test'
@@ -147,6 +162,17 @@ describe('moveDom', () => {
     })
 })
 
+describe('hiddenDom', () => {
+    insertNewDom('div', { name: 'id', value: 'hiddenDom' })
+
+    const operator = new CursorHTMLDomOperator()
+    operator.hiddenDom('body > div#hiddenDom')
+
+    const target = document.querySelector('body > div#hiddenDom')
+
+    expect(target).not.toBeVisible()
+})
+
 function insertNewDom(domTag: string, attribute?: { name: string, value: string }) {
     const newElm = document.createElement(domTag)
 
@@ -155,8 +181,4 @@ function insertNewDom(domTag: string, attribute?: { name: string, value: string 
     }
 
     document.body.appendChild(newElm)
-}
-
-function fireMouseEvent(dom: string, type: 'click' | 'mousemove', options?: MouseEventInit) {
-    document.querySelector(dom)?.dispatchEvent(new MouseEvent(type, options))
 }

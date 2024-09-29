@@ -1,4 +1,4 @@
-import { CreateDomArgs, CursorDomOperator, DomSpecifiedType } from "./cursor-dom-operator";
+import { AddableEvent, CreateDomArgs, CursorDomOperator, DomSpecifiedType } from "./cursor-dom-operator";
 import { toKebabCase } from "./utils";
 
 export class CursorHTMLDomOperator implements CursorDomOperator {
@@ -20,16 +20,23 @@ export class CursorHTMLDomOperator implements CursorDomOperator {
         return true
     }
 
-    addEventListener(domName: string, eventType: 'mousemove', eventListener: (x: number, y: number) => void): boolean {
+    addEventListener(
+        domName: string,
+        event: AddableEvent
+    ): boolean {
         const target = this.findParentDom(domName)
 
         if (target === null) {
             return false
         }
 
-        target.addEventListener(eventType, (e) => {
-            if (eventType === 'mousemove' && e instanceof MouseEvent) {
-                eventListener(e.clientX, e.clientY)
+        target.addEventListener(event.type, (e) => {
+            if (event.type === 'mousemove' && e instanceof MouseEvent) {
+                event.listener(e.clientX, e.clientY)
+            }
+
+            if (event.type === 'mouseleave') {
+                event.listener()
             }
         })
 
@@ -49,6 +56,16 @@ export class CursorHTMLDomOperator implements CursorDomOperator {
 
         target.style.left = `${position.x}px`
         target.style.top = `${position.y}px`
+    }
+
+    hiddenDom(targetDom: string): void {
+        const target = this.findParentDom(targetDom)
+
+        if (target === null || !(target instanceof HTMLElement)) {
+            return
+        }
+
+        target.style.display = 'none'
     }
 
     private createEmptyNewDom(tagName: keyof HTMLElementTagNameMap, specifiedType: DomSpecifiedType, specifiedName: string) {
