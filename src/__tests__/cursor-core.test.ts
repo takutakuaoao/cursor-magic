@@ -2,7 +2,7 @@ import { CreateDomArgs, CursorDomOperator } from '../cursor-dom-operator'
 import { CursorCore, ErrorMessages } from '../cursor-core'
 
 describe('createCursor', () => {
-    test('called createDom method', () => {
+    test('cursor pointer dom was created and hidden.', () => {
         const mock = newCursorDomOperatorMock({ createDomReturn: true })
         const cursorID = 'test'
         const cursorCore = new CursorCore(new mock.mock, { cursorID: cursorID, cursorSize: 50 })
@@ -26,6 +26,7 @@ describe('createCursor', () => {
                 borderRadius: '100%'
             }
         })
+        mock.assertions.onceCalledHiddenDom(`#${cursorID}`)
     })
     test('can change some of the default cursor styling', () => {
         const mock = newCursorDomOperatorMock({ createDomReturn: true })

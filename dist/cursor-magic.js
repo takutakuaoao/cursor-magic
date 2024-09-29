@@ -23,6 +23,7 @@ class c {
       style: this.makeStyle()
     }))
       throw new Error(l.failedCreateCursor);
+    this.operator.hiddenDom(`#${this.cursorID}`);
   }
   setMouseMoveEvent(e) {
     this.operator.addEventListener(this.cursorAreaDom, {
