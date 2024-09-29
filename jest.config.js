@@ -5,4 +5,5 @@ export default {
   transform: {
     "^.+.tsx?$": ["ts-jest", { useESM: true }],
   },
+  testPathIgnorePatterns: ["./src/__tests__/util.ts"],
 };

@@ -1,7 +1,26 @@
 export interface CursorDomOperator {
     createDom(args: CreateDomArgs): boolean
-    addEventListener(domName: string, eventType: 'mousemove', eventListener: (x: number, y: number) => void): boolean
+    addEventListener(domName: string, event: AddableEvent): boolean
     moveDom(targetDom: string, position: { x: number, y: number }): void
+    hiddenDom(targetDom: string): void
+    showDom(targetDom: string): void
+}
+
+export type AddableEvent = MouseMoveEvent | MouseOutEvent | MouseEnterEvent
+
+type MouseMoveEvent = {
+    type: 'mousemove'
+    listener: (x: number, y: number) => void
+}
+
+type MouseOutEvent = {
+    type: 'mouseleave',
+    listener: () => void
+}
+
+type MouseEnterEvent = {
+    type: 'mouseenter',
+    listener: () => void
 }
 
 export type CreateDomArgs = {

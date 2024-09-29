@@ -74,7 +74,30 @@ describe('setMouseMoveEvent', () => {
         const onMouseMoveEvent = (x: number, y: number) => { }
         cursorCore.setMouseMoveEvent(onMouseMoveEvent)
 
-        mock.assertions.onceCalledAddEventListener('body', 'mousemove', onMouseMoveEvent)
+        mock.assertions.onceCalledAddEventListener('body', { type: 'mousemove', listener: onMouseMoveEvent })
+    })
+})
+
+describe('setMouseOutEvent', () => {
+    test('if success, addEventListener of operator be called', () => {
+        const operator = newCursorDomOperatorMock()
+        const cursorCore = new CursorCore(new operator.mock, { cursorAreaDom: 'body > #test' })
+
+        const listener = () => { }
+        cursorCore.setMouseLeaveEvent(listener)
+
+        operator.assertions.onceCalledAddEventListener('body > #test', { type: 'mouseleave', listener: listener })
+    })
+})
+
+describe('hiddenCursorPointer', () => {
+    test('if success, hiddenDom method of operator be once called.', () => {
+        const operator = newCursorDomOperatorMock()
+        const cursorCore = new CursorCore(new operator.mock, { cursorID: 'hiddenCursorID' })
+
+        cursorCore.hiddenCursorPointer()
+
+        operator.assertions.onceCalledHiddenDom('#hiddenCursorID')
     })
 })
 
@@ -89,6 +112,27 @@ describe('updatedMousePosition', () => {
     })
 })
 
+describe('setMouseEnterEvent', () => {
+    const operator = newCursorDomOperatorMock()
+    const cursorCore = new CursorCore(new operator.mock, { cursorAreaDom: 'body' })
+
+    const event = () => { }
+    cursorCore.setMouseEnterEvent(event)
+
+    operator.assertions.onceCalledAddEventListener('body', { type: 'mouseenter', listener: event })
+})
+
+describe('showCursorPointer', () => {
+    test('once the showDom method of operator was called if success', () => {
+        const operator = newCursorDomOperatorMock()
+        const cursorCore = new CursorCore(new operator.mock, { cursorID: 'testID' })
+
+        cursorCore.showCursorPointer()
+
+        operator.assertions.onceCalledShowDom('#testID')
+    })
+})
+
 function newCursorDomOperatorMock(methodsReturn: {
     createDomReturn?: boolean
     addEventListener?: boolean
@@ -96,11 +140,15 @@ function newCursorDomOperatorMock(methodsReturn: {
     const createDom = jest.fn().mockReturnValue(methodsReturn.createDomReturn);
     const addEventListener = jest.fn().mockReturnValue(methodsReturn.addEventListener)
     const moveDom = jest.fn()
+    const hiddenDom = jest.fn()
+    const showDom = jest.fn()
 
     const mock = jest.fn<CursorDomOperator, []>().mockImplementation(() => ({
         createDom: createDom,
         addEventListener: addEventListener,
-        moveDom: moveDom
+        moveDom: moveDom,
+        hiddenDom: hiddenDom,
+        showDom: showDom
     }))
 
     return {
@@ -110,22 +158,30 @@ function newCursorDomOperatorMock(methodsReturn: {
                 expect(mock).toHaveBeenCalledTimes(1)
                 expect(createDom.mock.calls[0][0]).toEqual(args)
             },
-            onceCalledAddEventListener: (targetDomId: string, eventType: string, event: (x: number, y: number) => void) => {
+            onceCalledAddEventListener: (targetDomId: string, event: { type: string, listener: Function }) => {
                 expect(addEventListener).toHaveBeenCalledTimes(1)
 
                 expect(addEventListener.mock.calls[0][0]).toBe(targetDomId)
-                expect(addEventListener.mock.calls[0][1]).toBe(eventType)
-                assertFunction(addEventListener.mock.calls[0][2], event)
-
-                function assertFunction(actual: any, expectFn: Function) {
-                    expect(String(actual)).toBe(String(expectFn))
-                }
+                expect(addEventListener.mock.calls[0][1].type).toBe(event.type)
+                assertFunction(addEventListener.mock.calls[0][1].listener, event.listener)
             },
             onceCalledMoveDom: (targetDom: string, position: { x: number, y: number }) => {
                 expect(moveDom).toHaveBeenCalledTimes(1)
                 expect(moveDom.mock.calls[0]).toStrictEqual([targetDom, position])
+            },
+            onceCalledHiddenDom: (targetDom: string) => {
+                expect(hiddenDom).toHaveBeenCalledTimes(1)
+                expect(hiddenDom.mock.calls[0]).toStrictEqual([targetDom])
+            },
+            onceCalledShowDom: (targetDom: string) => {
+                expect(showDom).toHaveBeenCalledTimes(1)
+                expect(showDom.mock.calls[0]).toStrictEqual([targetDom])
             }
         }
 
     };
+}
+
+function assertFunction(actual: any, expectFn: Function) {
+    expect(String(actual)).toBe(String(expectFn))
 }
