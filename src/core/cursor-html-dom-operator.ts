@@ -78,6 +78,16 @@ export class CursorHTMLDomOperator implements CursorDomOperator {
         target.style.display = 'block'
     }
 
+    isVisibleDom(targetDom: string): boolean {
+        const target = this.findParentDom(targetDom)
+
+        if (target === null) {
+            return false
+        }
+
+        return target.style.display !== 'none'
+    }
+
     private createEmptyNewDom(tagName: keyof HTMLElementTagNameMap, specifiedType: DomSpecifiedType, specifiedName: string) {
         const newElm = document.createElement(tagName)
         const attributeName = specifiedType === 'id' ? 'id' : 'class'

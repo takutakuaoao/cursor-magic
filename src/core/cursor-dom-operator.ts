@@ -4,6 +4,7 @@ export interface CursorDomOperator {
     moveDom(targetDom: string, position: { x: number, y: number }): void
     hiddenDom(targetDom: string): void
     showDom(targetDom: string): void
+    isVisibleDom(targetDom: string): boolean
 }
 
 export type AddableEvent = MouseMoveEvent | MouseOutEvent | MouseEnterEvent

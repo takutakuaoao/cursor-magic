@@ -111,6 +111,14 @@ describe('updatedMousePosition', () => {
 
         mock.assertions.onceCalledMoveDom('#cursorID', { x: 75, y: 175 })
     })
+    test('if cursor dom is hidden, it must be shown.', () => {
+        const mock = newCursorDomOperatorMock({ isVisibleDom: false })
+        const cursorCore = new CursorCore(new mock.mock, { cursorID: 'cursorID' })
+
+        cursorCore.updatedMousePosition({ x: 10, y: 10 })
+
+        mock.assertions.onceCalledShowDom('#cursorID')
+    })
 })
 
 describe('setMouseEnterEvent', () => {
@@ -137,19 +145,22 @@ describe('showCursorPointer', () => {
 function newCursorDomOperatorMock(methodsReturn: {
     createDomReturn?: boolean
     addEventListener?: boolean
-} = { createDomReturn: true, addEventListener: true }) {
+    isVisibleDom?: boolean
+} = { createDomReturn: true, addEventListener: true, isVisibleDom: true }) {
     const createDom = jest.fn().mockReturnValue(methodsReturn.createDomReturn);
     const addEventListener = jest.fn().mockReturnValue(methodsReturn.addEventListener)
     const moveDom = jest.fn()
     const hiddenDom = jest.fn()
     const showDom = jest.fn()
+    const isVisibleDom = jest.fn().mockReturnValue(methodsReturn.isVisibleDom)
 
     const mock = jest.fn<CursorDomOperator, []>().mockImplementation(() => ({
         createDom: createDom,
         addEventListener: addEventListener,
         moveDom: moveDom,
         hiddenDom: hiddenDom,
-        showDom: showDom
+        showDom: showDom,
+        isVisibleDom: isVisibleDom
     }))
 
     return {

@@ -38,7 +38,7 @@ class c {
     });
   }
   updatedMousePosition(e) {
-    this.operator.moveDom(`#${this.cursorID}`, this.calculateCursorPosition(e));
+    this.operator.isVisibleDom(`#${this.cursorID}`) || this.operator.showDom(`#${this.cursorID}`), this.operator.moveDom(`#${this.cursorID}`, this.calculateCursorPosition(e));
   }
   hiddenCursorPointer() {
     this.operator.hiddenDom(`#${this.cursorID}`);
@@ -107,6 +107,10 @@ class m {
   showDom(e) {
     const r = this.findParentDom(e);
     r !== null && (r.style.display = "block");
+  }
+  isVisibleDom(e) {
+    const r = this.findParentDom(e);
+    return r === null ? !1 : r.style.display !== "none";
   }
   createEmptyNewDom(e, r, s) {
     const o = document.createElement(e), n = r === "id" ? "id" : "class";

@@ -1,10 +1,6 @@
-/**
- * @jest-environment jsdom
- */
-
 import "@testing-library/jest-dom";
 import { CursorHTMLDomOperator } from "../cursor-html-dom-operator";
-import { fireMouseEvent } from "./util";
+import { fireMouseEvent, insertNewDom } from "../../__tests__/util";
 import { AddableEvent } from "../cursor-dom-operator";
 
 describe('createDom', () => {
@@ -185,16 +181,22 @@ describe('showDom', () => {
     })
 })
 
-function insertNewDom(domTag: string, attribute?: { name: string, value: string }, isHidden?: true) {
-    const newElm = document.createElement(domTag)
+describe('isVisibleDom', () => {
+    test('if dom is the not found dom, return must be false', () => {
+        const operator = new CursorHTMLDomOperator()
 
-    if (attribute) {
-        newElm.setAttribute(attribute.name, attribute.value)
-    }
+        expect(operator.isVisibleDom('#not-found-dom-id')).toBeFalsy()
+    })
+    test('if dom is shown, return must be true', () => {
+        const operator = new CursorHTMLDomOperator()
 
-    if (isHidden) {
-        newElm.style.display = 'none'
-    }
+        expect(operator.isVisibleDom('body')).toBeTruthy()
+    })
+    test('if display setting of dom is none, return must be false.', () => {
+        insertNewDom('div', { name: 'id', value: 'hidden-dom' }, true)
+        const operator = new CursorHTMLDomOperator()
 
-    document.body.appendChild(newElm)
-}
+        expect(operator.isVisibleDom('div#hidden-dom')).toBeFalsy()
+    })
+
+})

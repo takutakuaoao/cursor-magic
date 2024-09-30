@@ -7,6 +7,7 @@ export interface CursorDomOperator {
     }): void;
     hiddenDom(targetDom: string): void;
     showDom(targetDom: string): void;
+    isVisibleDom(targetDom: string): boolean;
 }
 export type AddableEvent = MouseMoveEvent | MouseOutEvent | MouseEnterEvent;
 type MouseMoveEvent = {

@@ -60,6 +60,9 @@ export class CursorCore {
     }
 
     updatedMousePosition(position: { x: number, y: number }): void {
+        if (!this.operator.isVisibleDom(`#${this.cursorID}`)) {
+            this.operator.showDom(`#${this.cursorID}`)
+        }
         this.operator.moveDom(`#${this.cursorID}`, this.calculateCursorPosition(position))
     }
 
