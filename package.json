@@ -1,7 +1,7 @@
 {
   "name": "cursor-magic",
   "version": "0.5.1",
-  "description": "",
+  "description": "Cursor Magic is cursor effects library, a simple and easy-to-use. This library is available in vanillaJS and React.",
   "main": "./dist/cursor-magic.cjs",
   "module": "./dist/cursor-magic.js",
   "types": "./dist/core/cursor-magic.d.ts",
@@ -53,5 +53,15 @@
     "dist/",
     "src/"
   ],
-  "type": "module"
+  "type": "module",
+  "keywords": [
+    "cursor magic",
+    "react cursor",
+    "react",
+    "vanilla-js",
+    "cursor",
+    "cursor effect",
+    "cursor animation",
+    "cursor pointer"
+  ]
 }
