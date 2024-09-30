@@ -5,22 +5,19 @@ export default defineConfig({
   build: {
     lib: {
       // 複数のエントリーポイントのディクショナリや配列にもできます
-      entry: resolve(__dirname, "src/index.ts"),
+      entry: [
+        resolve(__dirname, "src/core/cursor-magic.ts"),
+        resolve(__dirname, "src/react/react-cursor-magic.tsx"),
+      ],
       name: "CursorMagic",
-      // 適切な拡張子が追加されます
-      //   fileName: "my-lib",
     },
-    // rollupOptions: {
-    // ライブラリーにバンドルされるべきではない依存関係を
-    // 外部化するようにします
-    //   external: ["vue"],
-    //   output: {
-    // 外部化された依存関係のために UMD のビルドで使用する
-    // グローバル変数を提供します
-    // globals: {
-    //   vue: "Vue",
-    // },
-    //   },
-    // },
+    rollupOptions: {
+      external: ["react"],
+      output: {
+        globals: {
+          react: "React",
+        },
+      },
+    },
   },
 });
