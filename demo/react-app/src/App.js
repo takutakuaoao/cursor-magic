@@ -5,7 +5,13 @@ import ReactCursorMagic from "cursor-magic/react";
 function App() {
   return (
     <div className="App">
-      <ReactCursorMagic />
+      <ReactCursorMagic
+        cursorStyle={{
+          backgroundColor: "#b02d2de3",
+          border: "solid 2px #000000",
+          zIndex: "100",
+        }}
+      />
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
