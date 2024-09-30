@@ -4,7 +4,9 @@
 [![License](https://img.shields.io/github/license/takutakuaoao/cursor-magic.svg)](LICENSE)
 
 
-> Cursor Magic is cursor effects Javascript library, a simple and easy-to-use.
+Cursor Magic is cursor effects library, a simple and easy-to-use.
+
+This library is available in valinaJS and React.
 
 **Demo**
 
@@ -49,6 +51,47 @@
 **Customized pointer screenshot**
 
 ![customize-pointer](./images/customize-pointer.png)
+
+## For React
+
+Firstly, you need to install using npm. `npm i cursor-magic`
+
+Secondary, you need to import `cursor-magic/react` package, not `cursor-magic`.
+
+**Example**
+
+```jsx
+'use client' // ← Add if necessary.
+
+import CursorMagic from 'cursor-magic/react'
+
+const CursorMagicClient = () => {
+    return <CursorMagic />
+}
+
+export default CursorMagicClient
+```
+
+If you try to customize styling, the following can be set in the component props.
+
+```jsx
+'use client'
+
+import CursorMagic from 'cursor-magic/react'
+
+const CursorMagicClient = () => {
+    return <CursorMagic
+      cursorSize={50}, // pointer size
+      // ↓ customize pointer style
+      cursorStyle={{
+        backgroundColor: "#bbff00e3", // background color
+        border: "solid 2px #000000", // adding border style
+      }},
+    />
+}
+
+export default CursorMagicClient
+```
 
 ## Issues
 
