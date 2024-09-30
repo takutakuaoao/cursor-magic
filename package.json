@@ -2,16 +2,23 @@
   "name": "cursor-magic",
   "version": "0.4.1",
   "description": "",
-  "main": "./dist/cursor-magic.umd.cjs",
+  "main": "./dist/cursor-magic.cjs",
   "module": "./dist/cursor-magic.js",
+  "types": "./dist/core/cursor-magic.d.ts",
   "exports": {
     ".": {
       "import": "./dist/cursor-magic.js",
-      "require": "./dist/cursor-magic.umd.cjs"
+      "require": "./dist/cursor-magic.cjs",
+      "types": "./dist/core/cursor-magic.d.ts"
+    },
+    "./react": {
+      "import": "./dist/react-cursor-magic.js",
+      "require": "./dist/react-cursor-magic.cjs",
+      "types": "./dist/react/react-cursor-magic.d.ts"
     }
   },
   "scripts": {
-    "build": "npx vite build",
+    "build": "npx vite build && npx tsc --emitDeclarationOnly",
     "test": "jest",
     "minor": "npm version minor",
     "patch": "npm version patch"
@@ -30,6 +37,7 @@
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.5.0",
     "@types/jest": "^29.5.13",
+    "@types/react": "^18.3.10",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "ts-jest": "^29.2.5",
@@ -40,5 +48,9 @@
     "dist/",
     "src/"
   ],
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
 }
