@@ -3,8 +3,7 @@
  */
 
 import "@testing-library/jest-dom";
-
-import { createCursorMagic } from "../index";
+import { createCursorMagic } from '../cursor-magic'
 import { fireMouseEvent } from "./util";
 
 test('if mouseout event was fired, the cursorMagic dom must be hidden.', () => {
