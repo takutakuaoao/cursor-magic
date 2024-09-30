@@ -4,7 +4,7 @@
 
 import "@testing-library/jest-dom";
 import { createCursorMagic } from '../cursor-magic'
-import { fireMouseEvent } from "./util";
+import { fireMouseEvent } from "../../__tests__/util";
 
 test('if mouseout event was fired, the cursorMagic dom must be hidden.', () => {
     createCursorMagic({ cursorID: 'testID' })
@@ -21,5 +21,13 @@ test('if cursor is in screen, pointer is display on.', () => {
     expect(document.querySelector('#testID')).not.toBeVisible()
 
     fireMouseEvent('body', 'mouseenter')
+    expect(document.querySelector('#testID')).toBeVisible()
+})
+
+test('pointer is display on when mousemove firstly fired.', () => {
+    createCursorMagic({ cursorID: 'testID', cursorAreaDom: 'body' })
+
+    fireMouseEvent('body', 'mousemove', { clientX: 10, clientY: 20 })
+
     expect(document.querySelector('#testID')).toBeVisible()
 })
