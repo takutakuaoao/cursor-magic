@@ -6,7 +6,7 @@
 
 Cursor Magic is cursor effects library, a simple and easy-to-use.
 
-This library is available in valinaJS and React.
+This library is available in vanillaJS and React.
 
 **Demo**
 
