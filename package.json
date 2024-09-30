@@ -1,6 +1,6 @@
 {
   "name": "cursor-magic",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "",
   "main": "./dist/cursor-magic.cjs",
   "module": "./dist/cursor-magic.js",
