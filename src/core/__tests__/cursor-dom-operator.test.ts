@@ -74,6 +74,7 @@ describe('addEventListener', () => {
         ${'mousemove'}  | ${{ clientX: 10, clientY: 20 }} | ${[10, 20]}
         ${'mouseleave'} | ${undefined}                    | ${[]}
         ${'mouseenter'} | ${undefined}                    | ${[]}
+        ${'click'}      | ${undefined}                    | ${[]}
     `('fired $eventType eventListener', ({ eventType, mouseEventOption, expectEventListenerArgs }) => {
         const eventListener = jest.fn()
         executeAddEventListener('body', {
@@ -199,4 +200,17 @@ describe('isVisibleDom', () => {
         expect(operator.isVisibleDom('div#hidden-dom')).toBeFalsy()
     })
 
+})
+
+describe('setStyle', () => {
+    test('if dom is exits, set style', () => {
+        insertNewDom('div', { name: 'id', value: 'settingStyleDom' })
+
+        const operator = new CursorHTMLDomOperator()
+        operator.setStyle('#settingStyleDom', { border: '2px solid #000000' })
+
+        const target: HTMLElement | null = document.querySelector('#settingStyleDom')
+
+        expect(target?.style.border).toBe('2px solid #000000')
+    })
 })

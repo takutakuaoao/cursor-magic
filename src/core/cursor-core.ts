@@ -1,11 +1,16 @@
 import { CursorDomOperator } from "./cursor-dom-operator";
+import { CursorClickEffect } from "./cursor-click-effects/cursor-click-effect";
+import { LoggerClickEffect } from "./cursor-click-effects/logger-click-effect";
 
 export type CursorCoreOptions = {
     cursorID?: string
     cursorAreaDom?: string
     cursorSize?: number
     cursorStyle?: CustomableCursorStyle
+    cursorClickEffect?: CursorClickEffect
 }
+
+export type CursorStyle = Omit<CSSStyleDeclaration, 'getPropertyPriority' | 'getPropertyValue' | 'item' | 'removeProperty' | 'setProperty' | 'length' | number | keyof CSSRule | typeof Symbol.iterator>;
 
 type CustomableCursorStyle = Partial<Omit<CSSStyleDeclaration, 'width' | 'height' | 'top' | 'left' | 'absolute'>>
 
@@ -19,6 +24,7 @@ export class CursorCore {
         backgroundColor: '#7a7a7ae3',
         borderRadius: '100%'
     }
+    private cursorClickEffect: CursorClickEffect
 
     constructor(private operator: CursorDomOperator, private options?: CursorCoreOptions) {
         if (options) {
@@ -27,6 +33,8 @@ export class CursorCore {
             this.cursorSize = options.cursorSize ?? this.cursorSize
             this.cursorStyle = options.cursorStyle ? { ...this.cursorStyle, ...options.cursorStyle } : this.cursorStyle
         }
+
+        this.cursorClickEffect = options?.cursorClickEffect ?? new LoggerClickEffect()
     }
 
     createCursor(): void {
@@ -82,6 +90,30 @@ export class CursorCore {
 
     showCursorPointer() {
         this.operator.showDom(`#${this.cursorID}`)
+    }
+
+    setMouseClickEvent(event: () => void): void {
+        this.operator.addEventListener(`#${this.cursorID}`, {
+            type: 'click',
+            listener: event
+        })
+    }
+
+    fireClickCursorPointer(): void {
+        // let originalStyle: Partial<CursorStyle> = {}
+
+        // if (this.clickedCursorStyle.end === undefined) {
+        //     for (const [key, _] of Object.entries(this.clickedCursorStyle.effect) as [keyof CursorStyle, string][]) {
+        //         const originalStyleValue = this.operator.getDomStyle(`#${this.cursorID}`, key)
+        //         originalStyle[key] = originalStyleValue
+        //     }
+        // }
+
+        // const endStyle = this.clickedCursorStyle.end ?? originalStyle
+
+        // this.operator.setStyle(`#${this.cursorID}`, this.clickedCursorStyle.effect)
+        // this.operator.setStyle(`#${this.cursorID}`, endStyle)
+        this.cursorClickEffect?.fireClickEffect(`#${this.cursorID}`)
     }
 
     private makeStyle(): Partial<CSSStyleDeclaration> {

@@ -10,4 +10,6 @@ export function createCursorMagic(options?: CursorCoreOptions) {
     })
     cursor.setMouseLeaveEvent(() => cursor.hiddenCursorPointer())
     cursor.setMouseEnterEvent(() => cursor.showCursorPointer())
+
+    cursor.setMouseClickEvent(() => cursor.fireClickCursorPointer())
 }
