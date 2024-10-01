@@ -100,8 +100,24 @@ export class CursorHTMLDomOperator implements CursorDomOperator {
         }
     }
 
+    lazySetStyle(targetDom: string, style: Partial<CSSStyleDeclaration>, lazyMS: number): void {
+        const target = this.findParentDom(targetDom)
+
+        if (target) {
+            setTimeout(function (self: CursorHTMLDomOperator) {
+                self.setDomStyle(target, style)
+            }, lazyMS, this);
+        }
+    }
+
     getDomStyle(targetDom: string, property: string): string | undefined {
-        return undefined
+        const dom = this.findParentDom(targetDom)
+
+        if (dom === null) {
+            return undefined
+        }
+
+        return dom.style.getPropertyValue(property)
     }
 
     private createEmptyNewDom(tagName: keyof HTMLElementTagNameMap, specifiedType: DomSpecifiedType, specifiedName: string) {

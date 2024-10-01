@@ -1,8 +1,5 @@
-import { CursorClickEffect } from "../cursor-click-effects/cursor-click-effect";
-import { CursorStyle } from "../cursor-core";
+import { ClickedEffectStyle, CursorClickEffect } from "../cursor-click-effects/cursor-click-effect";
 import { CursorDomOperator } from "../cursor-dom-operator";
-
-type ClickedEffectStyle = Partial<CursorStyle>
 
 export class ClickEffectNotReturnOriginalStyle implements CursorClickEffect {
     constructor(private clickedStyle: ClickedEffectStyle, private operator: CursorDomOperator) { }

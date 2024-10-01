@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { CursorHTMLDomOperator } from "../cursor-html-dom-operator";
-import { fireMouseEvent, insertNewDom } from "../../__tests__/util";
+import { appendBody, createNewDOM, fireMouseEvent, insertNewDom, setDomStyle } from "../../__tests__/util";
 import { AddableEvent } from "../cursor-dom-operator";
 
 describe('createDom', () => {
@@ -212,5 +212,31 @@ describe('setStyle', () => {
         const target: HTMLElement | null = document.querySelector('#settingStyleDom')
 
         expect(target?.style.border).toBe('2px solid #000000')
+    })
+})
+
+describe('getDomStyle', () => {
+    it('If the specified style is set, the its value is returned.', () => {
+        appendBody(
+            setDomStyle(
+                createNewDOM('div', { name: 'id', value: 'test-id' }),
+                [['border', '2px solid #000000']]
+            )
+        )
+
+        const operator = new CursorHTMLDomOperator()
+        const result = operator.getDomStyle('div#test-id', 'border')
+
+        expect(result).toBe('2px solid #000000')
+    })
+    it('If the specified style is not set, empty string is returned.', () => {
+        appendBody(
+            createNewDOM('div', { name: 'id', value: 'not-styled-test-id' })
+        )
+
+        const operator = new CursorHTMLDomOperator()
+        const result = operator.getDomStyle('div#not-styled-test-id', 'border')
+
+        expect(result).toBe('')
     })
 })
