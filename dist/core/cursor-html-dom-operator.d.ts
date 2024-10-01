@@ -10,6 +10,7 @@ export declare class CursorHTMLDomOperator implements CursorDomOperator {
     showDom(targetDom: string): void;
     isVisibleDom(targetDom: string): boolean;
     setStyle(targetDom: string, style: Partial<CSSStyleDeclaration>): void;
+    lazySetStyle(targetDom: string, style: Partial<CSSStyleDeclaration>, lazyMS: number): void;
     getDomStyle(targetDom: string, property: string): string | undefined;
     private createEmptyNewDom;
     private findParentDom;

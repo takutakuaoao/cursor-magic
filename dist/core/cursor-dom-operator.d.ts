@@ -9,6 +9,7 @@ export interface CursorDomOperator {
     showDom(targetDom: string): void;
     isVisibleDom(targetDom: string): boolean;
     setStyle(targetDom: string, style: Partial<CSSStyleDeclaration>): void;
+    lazySetStyle(targetDom: string, style: Partial<CSSStyleDeclaration>, lazyMS: number): void;
     getDomStyle(targetDom: string, property: string): string | undefined;
 }
 export type AddableEvent = MouseMoveEvent | MouseOutEvent | MouseEnterEvent | MouseClickEvent;
