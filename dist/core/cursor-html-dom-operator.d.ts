@@ -9,6 +9,8 @@ export declare class CursorHTMLDomOperator implements CursorDomOperator {
     hiddenDom(targetDom: string): void;
     showDom(targetDom: string): void;
     isVisibleDom(targetDom: string): boolean;
+    setStyle(targetDom: string, style: Partial<CSSStyleDeclaration>): void;
+    getDomStyle(targetDom: string, property: string): string | undefined;
     private createEmptyNewDom;
     private findParentDom;
     private setDomStyle;

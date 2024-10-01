@@ -8,8 +8,10 @@ export interface CursorDomOperator {
     hiddenDom(targetDom: string): void;
     showDom(targetDom: string): void;
     isVisibleDom(targetDom: string): boolean;
+    setStyle(targetDom: string, style: Partial<CSSStyleDeclaration>): void;
+    getDomStyle(targetDom: string, property: string): string | undefined;
 }
-export type AddableEvent = MouseMoveEvent | MouseOutEvent | MouseEnterEvent;
+export type AddableEvent = MouseMoveEvent | MouseOutEvent | MouseEnterEvent | MouseClickEvent;
 type MouseMoveEvent = {
     type: 'mousemove';
     listener: (x: number, y: number) => void;
@@ -20,6 +22,10 @@ type MouseOutEvent = {
 };
 type MouseEnterEvent = {
     type: 'mouseenter';
+    listener: () => void;
+};
+type MouseClickEvent = {
+    type: 'click';
     listener: () => void;
 };
 export type CreateDomArgs = {

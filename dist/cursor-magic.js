@@ -1,7 +1,12 @@
-var u = Object.defineProperty;
-var a = (t, e, r) => e in t ? u(t, e, { enumerable: !0, configurable: !0, writable: !0, value: r }) : t[e] = r;
-var i = (t, e, r) => a(t, typeof e != "symbol" ? e + "" : e, r);
-class c {
+var n = Object.defineProperty;
+var u = (t, e, r) => e in t ? n(t, e, { enumerable: !0, configurable: !0, writable: !0, value: r }) : t[e] = r;
+var i = (t, e, r) => u(t, typeof e != "symbol" ? e + "" : e, r);
+class a {
+  fireClickEffect(e) {
+    console.log(`Click event of ${e} is fired.`);
+  }
+}
+class l {
   constructor(e, r) {
     i(this, "cursorID", "cursorMagic");
     i(this, "cursorAreaDom", "body");
@@ -12,7 +17,8 @@ class c {
       backgroundColor: "#7a7a7ae3",
       borderRadius: "100%"
     });
-    this.operator = e, this.options = r, r && (this.cursorID = r.cursorID ?? this.cursorID, this.cursorAreaDom = r.cursorAreaDom ?? this.cursorAreaDom, this.cursorSize = r.cursorSize ?? this.cursorSize, this.cursorStyle = r.cursorStyle ? { ...this.cursorStyle, ...r.cursorStyle } : this.cursorStyle);
+    i(this, "cursorClickEffect");
+    this.operator = e, this.options = r, r && (this.cursorID = r.cursorID ?? this.cursorID, this.cursorAreaDom = r.cursorAreaDom ?? this.cursorAreaDom, this.cursorSize = r.cursorSize ?? this.cursorSize, this.cursorStyle = r.cursorStyle ? { ...this.cursorStyle, ...r.cursorStyle } : this.cursorStyle), this.cursorClickEffect = (r == null ? void 0 : r.cursorClickEffect) ?? new a();
   }
   createCursor() {
     if (!this.operator.createDom({
@@ -22,7 +28,7 @@ class c {
       specifiedName: this.cursorID,
       style: this.makeStyle()
     }))
-      throw new Error(l.failedCreateCursor);
+      throw new Error(h.failedCreateCursor);
     this.operator.hiddenDom(`#${this.cursorID}`);
   }
   setMouseMoveEvent(e) {
@@ -55,6 +61,16 @@ class c {
   showCursorPointer() {
     this.operator.showDom(`#${this.cursorID}`);
   }
+  setMouseClickEvent(e) {
+    this.operator.addEventListener(`#${this.cursorID}`, {
+      type: "click",
+      listener: e
+    });
+  }
+  fireClickCursorPointer() {
+    var e;
+    (e = this.cursorClickEffect) == null || e.fireClickEffect(`#${this.cursorID}`);
+  }
   makeStyle() {
     return {
       width: `${this.cursorSize}px`,
@@ -72,10 +88,10 @@ class c {
     };
   }
 }
-const l = {
+const h = {
   failedCreateCursor: "Failed create cursorMagic dom"
 };
-function h(t) {
+function f(t) {
   return t = t.replace(/^ *?[A-Z]/, function(e) {
     return e.toLowerCase();
   }), t = t.replace(/_/g, "-"), t = t.replace(/ *?[A-Z]/g, function(e, r) {
@@ -93,7 +109,7 @@ class m {
   addEventListener(e, r) {
     const s = this.findParentDom(e);
     return s === null ? !1 : (s.addEventListener(r.type, (o) => {
-      r.type === "mousemove" && o instanceof MouseEvent && r.listener(o.clientX, o.clientY), r.type === "mouseleave" && r.listener(), r.type === "mouseenter" && r.listener();
+      r.type === "mousemove" && o instanceof MouseEvent && r.listener(o.clientX, o.clientY), r.type === "mouseleave" && r.listener(), r.type === "mouseenter" && r.listener(), r.type === "click" && r.listener();
     }), !0);
   }
   moveDom(e, r) {
@@ -112,25 +128,31 @@ class m {
     const r = this.findParentDom(e);
     return r === null ? !1 : r.style.display !== "none";
   }
+  setStyle(e, r) {
+    const s = this.findParentDom(e);
+    s && this.setDomStyle(s, r);
+  }
+  getDomStyle(e, r) {
+  }
   createEmptyNewDom(e, r, s) {
-    const o = document.createElement(e), n = r === "id" ? "id" : "class";
-    return o.setAttribute(n, s), o;
+    const o = document.createElement(e), c = r === "id" ? "id" : "class";
+    return o.setAttribute(c, s), o;
   }
   findParentDom(e) {
     return document.querySelector(e);
   }
   setDomStyle(e, r) {
     for (const [s, o] of Object.entries(r))
-      typeof o == "string" && e.style.setProperty(h(s), o);
+      typeof o == "string" && e.style.setProperty(f(s), o);
     return e;
   }
 }
-function p(t) {
-  const e = new c(new m(), t);
+function D(t) {
+  const e = new l(new m(), t);
   e.createCursor(), e.setMouseMoveEvent((r, s) => {
     e.updatedMousePosition({ x: r, y: s });
-  }), e.setMouseLeaveEvent(() => e.hiddenCursorPointer()), e.setMouseEnterEvent(() => e.showCursorPointer());
+  }), e.setMouseLeaveEvent(() => e.hiddenCursorPointer()), e.setMouseEnterEvent(() => e.showCursorPointer()), e.setMouseClickEvent(() => e.fireClickCursorPointer());
 }
 export {
-  p as createCursorMagic
+  D as createCursorMagic
 };
