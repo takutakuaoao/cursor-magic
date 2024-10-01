@@ -42,6 +42,10 @@ export class CursorHTMLDomOperator implements CursorDomOperator {
             if (event.type === 'mouseenter') {
                 event.listener()
             }
+
+            if (event.type === 'click') {
+                event.listener()
+            }
         })
 
         return true
@@ -86,6 +90,18 @@ export class CursorHTMLDomOperator implements CursorDomOperator {
         }
 
         return target.style.display !== 'none'
+    }
+
+    setStyle(targetDom: string, style: Partial<CSSStyleDeclaration>): void {
+        const target = this.findParentDom(targetDom)
+
+        if (target) {
+            this.setDomStyle(target, style)
+        }
+    }
+
+    getDomStyle(targetDom: string, property: string): string | undefined {
+        return undefined
     }
 
     private createEmptyNewDom(tagName: keyof HTMLElementTagNameMap, specifiedType: DomSpecifiedType, specifiedName: string) {

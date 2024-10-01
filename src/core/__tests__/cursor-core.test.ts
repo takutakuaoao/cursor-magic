@@ -1,5 +1,6 @@
 import { CreateDomArgs, CursorDomOperator } from '../cursor-dom-operator'
 import { CursorCore, ErrorMessages } from '../cursor-core'
+import { CursorClickEffect } from '../cursor-click-effects/cursor-click-effect'
 
 describe('createCursor', () => {
     test('cursor pointer dom was created and hidden.', () => {
@@ -142,17 +143,44 @@ describe('showCursorPointer', () => {
     })
 })
 
+describe('setMouseClickEvent', () => {
+    const operator = newCursorDomOperatorMock()
+    const cursorCore = new CursorCore(new operator.mock, { cursorID: 'cursorID' })
+
+    const event = () => { }
+    cursorCore.setMouseClickEvent(event)
+
+    operator.assertions.onceCalledAddEventListener('#cursorID', { type: 'click', listener: event })
+})
+
+describe('fireClickCursorPointer', () => {
+    test('when click event on cursor pointer is fired, fireClickEffect method of cursor click effect once is called.', () => {
+        const clickEffect = newCursorClickEffectMock()
+        const cursorCore = new CursorCore(new (newCursorDomOperatorMock().mock), {
+            cursorID: 'cursorID',
+            cursorClickEffect: new clickEffect.mock
+        })
+
+        cursorCore.fireClickCursorPointer()
+
+        clickEffect.assertions.onceCalledFireClickEffect('#cursorID')
+    })
+})
+
 function newCursorDomOperatorMock(methodsReturn: {
     createDomReturn?: boolean
     addEventListener?: boolean
     isVisibleDom?: boolean
-} = { createDomReturn: true, addEventListener: true, isVisibleDom: true }) {
+    getDomStyle?: string | undefined
+} = { createDomReturn: true, addEventListener: true, isVisibleDom: true, getDomStyle: undefined }) {
     const createDom = jest.fn().mockReturnValue(methodsReturn.createDomReturn);
     const addEventListener = jest.fn().mockReturnValue(methodsReturn.addEventListener)
     const moveDom = jest.fn()
     const hiddenDom = jest.fn()
     const showDom = jest.fn()
     const isVisibleDom = jest.fn().mockReturnValue(methodsReturn.isVisibleDom)
+    const setStyle = jest.fn()
+    const getDomStyle = jest.fn().mockReturnValue(methodsReturn.getDomStyle)
 
     const mock = jest.fn<CursorDomOperator, []>().mockImplementation(() => ({
         createDom: createDom,
@@ -160,7 +188,9 @@ function newCursorDomOperatorMock(methodsReturn: {
         moveDom: moveDom,
         hiddenDom: hiddenDom,
         showDom: showDom,
-        isVisibleDom: isVisibleDom
+        isVisibleDom: isVisibleDom,
+        setStyle: setStyle,
+        getDomStyle: getDomStyle
     }))
 
     return {
@@ -188,10 +218,35 @@ function newCursorDomOperatorMock(methodsReturn: {
             onceCalledShowDom: (targetDom: string) => {
                 expect(showDom).toHaveBeenCalledTimes(1)
                 expect(showDom.mock.calls[0]).toStrictEqual([targetDom])
+            },
+            calledSetStyle: (calledCount: number, cursorID: string, ...args: Partial<CSSStyleDeclaration>[]) => {
+                expect(setStyle).toHaveBeenCalledTimes(calledCount)
+
+                args.forEach((element, index) => {
+                    expect(setStyle.mock.calls[index]).toStrictEqual([cursorID, element])
+                });
             }
         }
 
     };
+}
+
+function newCursorClickEffectMock() {
+    const fireClickEffect = jest.fn()
+
+    const mock = jest.fn<CursorClickEffect, []>().mockImplementation(() => ({
+        fireClickEffect: fireClickEffect
+    }))
+
+    return {
+        mock: mock,
+        assertions: {
+            onceCalledFireClickEffect: (targetDom: string) => {
+                expect(fireClickEffect).toHaveBeenCalledTimes(1)
+                expect(fireClickEffect.mock.calls[0]).toStrictEqual([targetDom])
+            }
+        }
+    }
 }
 
 function assertFunction(actual: any, expectFn: Function) {
