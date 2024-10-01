@@ -3,13 +3,13 @@
  */
 
 import "@testing-library/jest-dom";
-import { createCursorMagic } from '../cursor-magic'
+import { initCursorMagic } from '../cursor-magic'
 import { fireMouseEvent } from "../../__tests__/util";
 import { ClickEffectNotReturnOriginalStyle } from "./click-effect-not-return-original-style"
 import { CursorHTMLDomOperator } from "../cursor-html-dom-operator";
 
 test('if mouseout event was fired, the cursorMagic dom must be hidden.', () => {
-    createCursorMagic({ cursorID: 'testID' })
+    initCursorMagic({ cursorID: 'testID' })
 
     fireMouseEvent('body', 'mouseleave')
 
@@ -17,7 +17,7 @@ test('if mouseout event was fired, the cursorMagic dom must be hidden.', () => {
 })
 
 test('if cursor is in screen, pointer is display on.', () => {
-    createCursorMagic({ cursorID: 'testID', cursorAreaDom: 'body' })
+    initCursorMagic({ cursorID: 'testID', cursorAreaDom: 'body' })
 
     fireMouseEvent('body', 'mouseleave')
     expect(document.querySelector('#testID')).not.toBeVisible()
@@ -27,7 +27,7 @@ test('if cursor is in screen, pointer is display on.', () => {
 })
 
 test('pointer is display on when mousemove firstly fired.', () => {
-    createCursorMagic({ cursorID: 'testID', cursorAreaDom: 'body' })
+    initCursorMagic({ cursorID: 'testID', cursorAreaDom: 'body' })
 
     fireMouseEvent('body', 'mousemove', { clientX: 10, clientY: 20 })
 
@@ -38,7 +38,7 @@ describe('click effect tests', () => {
     test('if user click the cursor pointer, border style of pointer is changed.', () => {
         const clickEffect = new ClickEffectNotReturnOriginalStyle({ border: 'solid 2px #000000' }, new CursorHTMLDomOperator)
 
-        createCursorMagic({
+        initCursorMagic({
             cursorID: 'testID',
             cursorClickEffect: clickEffect
         })

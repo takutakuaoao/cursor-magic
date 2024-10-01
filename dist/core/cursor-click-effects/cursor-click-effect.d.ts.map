@@ -1,1 +1,1 @@
-{"version":3,"file":"cursor-click-effect.d.ts","sourceRoot":"","sources":["../../../src/core/cursor-click-effects/cursor-click-effect.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,iBAAiB;IAC9B,eAAe,CAAC,SAAS,EAAE,MAAM,GAAG,IAAI,CAAA;CAC3C"}
+{"version":3,"file":"cursor-click-effect.d.ts","sourceRoot":"","sources":["../../../src/core/cursor-click-effects/cursor-click-effect.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,WAAW,EAAE,MAAM,gBAAgB,CAAA;AAE5C,MAAM,MAAM,kBAAkB,GAAG,OAAO,CAAC,WAAW,CAAC,CAAA;AAErD,MAAM,WAAW,iBAAiB;IAC9B,eAAe,CAAC,SAAS,EAAE,MAAM,GAAG,IAAI,CAAA;CAC3C"}
