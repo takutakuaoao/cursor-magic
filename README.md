@@ -14,11 +14,6 @@ This library is available in vanillaJS and React.
 
     ![cursor-magic-demo](./images/cursor-magic-demo.gif)
 
-1. Click event effect
-      <div>
-        <img src="./images/click-cursor-effect-demo.gif" width="580px" alt="cursor-click-effect-demo" />
-      </div>
-
 
 ## Installation
 
@@ -57,20 +52,6 @@ This library is available in vanillaJS and React.
 **Customized pointer screenshot**
 
 ![customize-pointer](./images/customize-pointer.png)
-
-### Enable effects on clicking Cursor
-
-If you want to be enable click effect, you need to set true on `useClickEffect` property.
-
-```html
-<script type="module">
-    import { createCursorMagic } from "./node_modules/cursor-magic/dist/cursor-magic.js";
-
-    createCursorMagic({
-      useClickEffect: true
-    });
-</script>
-```
 
 ## For React
 
