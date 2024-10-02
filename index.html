@@ -4,13 +4,110 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <style>
+      .flex {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .cursorArea {
+        width: 30%;
+        height: 100px;
+        border: solid 2px #bcd3df;
+        padding: 20px;
+        margin-right: 1%;
+        margin-bottom: 30px;
+      }
+      #pointer-area-3 {
+        background-image: linear-gradient(
+          90deg,
+          rgba(145, 175, 175, 1),
+          rgba(188, 146, 166, 1)
+        );
+      }
+    </style>
   </head>
   <body style="height: 100vh">
-    <a href="https://example.com">Click Test</a>
+    <div class="flex">
+      <div class="cursorArea" id="pointer-area-1">Pointer1</div>
+      <div class="cursorArea" id="pointer-area-2">Pointer2</div>
+      <div class="cursorArea" id="pointer-area-3">Pointer3</div>
+      <div class="cursorArea" id="pointer-area-4">Pointer4</div>
+      <div class="cursorArea" id="pointer-area-5">Pointer5</div>
+      <div class="cursorArea" id="pointer-area-6">Pointer6</div>
+    </div>
+
     <script type="module">
       import { createCursorMagic } from "./dist/cursor-magic.js";
 
-      createCursorMagic();
+      createCursorMagic({
+        cursorID: "pointer-1",
+        cursorAreaDom: "#pointer-area-1",
+        cursorSize: 15,
+        cursorStyle: {
+          border: "none",
+          backgroundColor: "#00000080",
+        },
+      });
+
+      createCursorMagic({
+        cursorID: "pointer-2",
+        cursorAreaDom: "#pointer-area-2",
+        cursorSize: 40,
+        cursorStyle: {
+          border: "1px solid #c9caca",
+        },
+      });
+
+      createCursorMagic({
+        cursorID: "pointer-3",
+        cursorAreaDom: "#pointer-area-3",
+        cursorSize: 40,
+        cursorStyle: {
+          backgroundColor: "#ffffff",
+          mixBlendMode: "difference",
+        },
+      });
+
+      createCursorMagic({
+        cursorID: "pointer-4",
+        cursorAreaDom: "#pointer-area-4",
+        cursorStyle: {
+          transition: "0.1s",
+          transitionTimingFunction: "ease",
+        },
+      });
+
+      createCursorMagic({
+        cursorID: "pointer-5-2",
+        cursorAreaDom: "#pointer-area-5",
+        cursorSize: 14,
+        cursorStyle: {
+          transition: "0.1s",
+          transitionTimingFunction: "ease",
+          backgroundColor: "#959595",
+        },
+      });
+
+      createCursorMagic({
+        cursorID: "pointer-5-1",
+        cursorAreaDom: "#pointer-area-5",
+        cursorSize: 50,
+        cursorStyle: {
+          transition: "0.6s",
+          backgroundColor: "#89a9c066",
+        },
+      });
+
+      createCursorMagic({
+        cursorID: "pointer-6",
+        cursorAreaDom: "#pointer-area-6",
+        cursorSize: 150,
+        cursorStyle: {
+          backgroundImage:
+            "url(https://placehold.jp/3d4070/ffffff/150x150.png)",
+          borderRadius: "0px",
+        },
+      });
     </script>
   </body>
 </html>
