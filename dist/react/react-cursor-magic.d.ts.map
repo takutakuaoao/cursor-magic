@@ -1,1 +1,1 @@
-{"version":3,"file":"react-cursor-magic.d.ts","sourceRoot":"","sources":["../../src/react/react-cursor-magic.tsx"],"names":[],"mappings":"AAEA,OAAO,EAAE,iBAAiB,EAAE,MAAM,qBAAqB,CAAA;AAEvD,QAAA,MAAM,gBAAgB,WAAY,iBAAiB,4CAMlD,CAAA;AAED,eAAe,gBAAgB,CAAA"}
+{"version":3,"file":"react-cursor-magic.d.ts","sourceRoot":"","sources":["../../src/react/react-cursor-magic.tsx"],"names":[],"mappings":"AACA,OAAO,EAAE,wBAAwB,EAAqB,MAAM,sBAAsB,CAAA;AAElF,QAAA,MAAM,gBAAgB,WAAY,wBAAwB,4CAMzD,CAAA;AAED,eAAe,gBAAgB,CAAA"}

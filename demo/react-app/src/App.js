@@ -1,17 +1,12 @@
 import logo from "./logo.svg";
 import "./App.css";
 import ReactCursorMagic from "cursor-magic/react";
+import Button from "./Button";
 
 function App() {
   return (
     <div className="App">
-      <ReactCursorMagic
-        cursorStyle={{
-          backgroundColor: "#b02d2de3",
-          border: "solid 2px #000000",
-          zIndex: "100",
-        }}
-      />
+      <ReactCursorMagic />
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
@@ -25,6 +20,7 @@ function App() {
         >
           Learn React
         </a>
+        <Button />
       </header>
     </div>
   );

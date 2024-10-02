@@ -1,8 +1,7 @@
 import { useEffect } from "react"
-import { createCursorMagic } from "../core/cursor-magic"
-import { CursorCoreOptions } from "../core/cursor-core"
+import { ClientCursorMagicOptions, createCursorMagic } from "../core/cursor-magic"
 
-const ReactCursorMagic = (props?: CursorCoreOptions) => {
+const ReactCursorMagic = (props?: ClientCursorMagicOptions) => {
     useEffect(() => {
         createCursorMagic(props)
     }, [])

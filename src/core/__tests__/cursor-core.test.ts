@@ -1,12 +1,11 @@
 import { CursorCore, ErrorMessages } from '../cursor-core'
-import { CursorClickEffect } from '../cursor-click-effects/cursor-click-effect'
 import { newCursorDomOperatorMock } from './cursor-dom-operator-mock'
 
 describe('createCursor', () => {
     test('cursor pointer dom was created and hidden.', () => {
         const mock = newCursorDomOperatorMock({ createDomReturn: true })
         const cursorID = 'test'
-        const cursorCore = new CursorCore(new mock.mock, { cursorID: cursorID, cursorSize: 50 })
+        const cursorCore = new CursorCore(new mock.mock, { cursorID: cursorID, cursorSize: 60 })
 
         cursorCore.createCursor()
 
@@ -16,15 +15,16 @@ describe('createCursor', () => {
             specifiedType: 'id',
             specifiedName: cursorID,
             style: {
-                width: '50px',
-                height: '50px',
+                width: '60px',
+                height: '60px',
                 transition: '0.2s',
                 transitionTimingFunction: 'ease-out',
                 position: 'absolute',
                 top: '0px',
                 left: '0px',
-                backgroundColor: '#7a7a7ae3',
-                borderRadius: '100%'
+                border: "1px solid #b8b8b8",
+                borderRadius: '100%',
+                pointerEvents: 'none'
             }
         })
         mock.assertions.onceCalledHiddenDom(`#${cursorID}`)
@@ -45,15 +45,17 @@ describe('createCursor', () => {
             specifiedType: 'id',
             specifiedName: 'cursorMagic',
             style: {
-                width: '30px',
-                height: '30px',
+                width: '50px',
+                height: '50px',
                 transition: '0.2s',
                 transitionTimingFunction: 'ease-out',
                 position: 'absolute',
                 top: '0px',
                 left: '0px',
+                border: "1px solid #b8b8b8",
                 backgroundColor: 'blue',
-                borderRadius: '100%'
+                borderRadius: '100%',
+                pointerEvents: 'none'
             }
         })
     })
@@ -142,45 +144,3 @@ describe('showCursorPointer', () => {
         operator.assertions.onceCalledShowDom('#testID')
     })
 })
-
-describe('setMouseClickEvent', () => {
-    const operator = newCursorDomOperatorMock()
-    const cursorCore = new CursorCore(new operator.mock, { cursorID: 'cursorID' })
-
-    const event = () => { }
-    cursorCore.setMouseClickEvent(event)
-
-    operator.assertions.onceCalledAddEventListener('#cursorID', { type: 'click', listener: event })
-})
-
-describe('fireClickCursorPointer', () => {
-    test('when click event on cursor pointer is fired, fireClickEffect method of cursor click effect once is called.', () => {
-        const clickEffect = newCursorClickEffectMock()
-        const cursorCore = new CursorCore(new (newCursorDomOperatorMock().mock), {
-            cursorID: 'cursorID',
-            cursorClickEffect: new clickEffect.mock
-        })
-
-        cursorCore.fireClickCursorPointer()
-
-        clickEffect.assertions.onceCalledFireClickEffect('#cursorID')
-    })
-})
-
-function newCursorClickEffectMock() {
-    const fireClickEffect = jest.fn()
-
-    const mock = jest.fn<CursorClickEffect, []>().mockImplementation(() => ({
-        fireClickEffect: fireClickEffect
-    }))
-
-    return {
-        mock: mock,
-        assertions: {
-            onceCalledFireClickEffect: (targetDom: string) => {
-                expect(fireClickEffect).toHaveBeenCalledTimes(1)
-                expect(fireClickEffect.mock.calls[0]).toStrictEqual([targetDom])
-            }
-        }
-    }
-}
