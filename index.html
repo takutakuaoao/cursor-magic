@@ -6,15 +6,11 @@
     <title>Document</title>
   </head>
   <body style="height: 100vh">
+    <a href="https://example.com">Click Test</a>
     <script type="module">
       import { createCursorMagic } from "./dist/cursor-magic.js";
 
-      createCursorMagic({
-        cursorID: "customCursorID",
-        cursorSize: 50,
-        cursorStyle: { backgroundColor: "#d95858b8", border: "2px solid red" },
-        useClickEffect: true,
-      });
+      createCursorMagic();
     </script>
   </body>
 </html>

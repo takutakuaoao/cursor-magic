@@ -1,13 +1,10 @@
 import { CursorDomOperator } from "./cursor-dom-operator";
-import { CursorClickEffect } from "./cursor-click-effects/cursor-click-effect";
-import { NothingCursorClickEffect } from "./cursor-click-effects/nothing-cursor-click-effect";
 
 export type CursorCoreOptions = {
     cursorID?: string
     cursorAreaDom?: string
     cursorSize?: number
     cursorStyle?: CustomableCursorStyle
-    cursorClickEffect?: CursorClickEffect
 }
 
 export type CursorStyle = Omit<CSSStyleDeclaration, 'getPropertyPriority' | 'getPropertyValue' | 'item' | 'removeProperty' | 'setProperty' | 'length' | number | keyof CSSRule | typeof Symbol.iterator>;
@@ -24,7 +21,6 @@ export class CursorCore {
         border: '1px solid #b8b8b8',
         borderRadius: '100%'
     }
-    private cursorClickEffect: CursorClickEffect
 
     constructor(private operator: CursorDomOperator, private options?: CursorCoreOptions) {
         if (options) {
@@ -33,8 +29,6 @@ export class CursorCore {
             this.cursorSize = options.cursorSize ?? this.cursorSize
             this.cursorStyle = options.cursorStyle ? { ...this.cursorStyle, ...options.cursorStyle } : this.cursorStyle
         }
-
-        this.cursorClickEffect = options?.cursorClickEffect ?? new NothingCursorClickEffect()
     }
 
     createCursor(): void {
@@ -92,17 +86,6 @@ export class CursorCore {
         this.operator.showDom(`#${this.cursorID}`)
     }
 
-    setMouseClickEvent(event: () => void): void {
-        this.operator.addEventListener(`#${this.cursorID}`, {
-            type: 'click',
-            listener: event
-        })
-    }
-
-    fireClickCursorPointer(): void {
-        this.cursorClickEffect.fireClickEffect(`#${this.cursorID}`)
-    }
-
     private makeStyle(): Partial<CSSStyleDeclaration> {
         return {
             width: `${this.cursorSize}px`,
@@ -110,6 +93,7 @@ export class CursorCore {
             position: 'absolute',
             top: '0px',
             left: '0px',
+            pointerEvents: 'none',
             ...this.cursorStyle
         }
     }
