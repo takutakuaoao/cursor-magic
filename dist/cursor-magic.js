@@ -1,31 +1,7 @@
 var u = Object.defineProperty;
-var l = (s, e, t) => e in s ? u(s, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : s[e] = t;
-var i = (s, e, t) => l(s, typeof e != "symbol" ? e + "" : e, t);
-class a {
-  constructor(e, t) {
-    this.operator = e, this.clickedStyle = t;
-  }
-  fireClickEffect(e) {
-    const t = this.getOriginalStyle(e);
-    this.operator.setStyle(e, this.clickedStyle), this.operator.lazySetStyle(e, t, 300);
-  }
-  getOriginalStyle(e) {
-    const t = {};
-    for (const [r, o] of this.toObjectEntriesCursorStyle(this.clickedStyle)) {
-      const c = this.operator.getDomStyle(e, r);
-      t[r] = c;
-    }
-    return t;
-  }
-  toObjectEntriesCursorStyle(e) {
-    return Object.entries(e);
-  }
-}
-class h {
-  fireClickEffect(e) {
-  }
-}
-class f {
+var a = (s, e, t) => e in s ? u(s, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : s[e] = t;
+var i = (s, e, t) => a(s, typeof e != "symbol" ? e + "" : e, t);
+class c {
   constructor(e, t) {
     i(this, "cursorID", "cursorMagic");
     i(this, "cursorAreaDom", "body");
@@ -36,8 +12,7 @@ class f {
       border: "1px solid #b8b8b8",
       borderRadius: "100%"
     });
-    i(this, "cursorClickEffect");
-    this.operator = e, this.options = t, t && (this.cursorID = t.cursorID ?? this.cursorID, this.cursorAreaDom = t.cursorAreaDom ?? this.cursorAreaDom, this.cursorSize = t.cursorSize ?? this.cursorSize, this.cursorStyle = t.cursorStyle ? { ...this.cursorStyle, ...t.cursorStyle } : this.cursorStyle), this.cursorClickEffect = (t == null ? void 0 : t.cursorClickEffect) ?? new h();
+    this.operator = e, this.options = t, t && (this.cursorID = t.cursorID ?? this.cursorID, this.cursorAreaDom = t.cursorAreaDom ?? this.cursorAreaDom, this.cursorSize = t.cursorSize ?? this.cursorSize, this.cursorStyle = t.cursorStyle ? { ...this.cursorStyle, ...t.cursorStyle } : this.cursorStyle);
   }
   createCursor() {
     if (!this.operator.createDom({
@@ -47,7 +22,7 @@ class f {
       specifiedName: this.cursorID,
       style: this.makeStyle()
     }))
-      throw new Error(m.failedCreateCursor);
+      throw new Error(l.failedCreateCursor);
     this.operator.hiddenDom(`#${this.cursorID}`);
   }
   setMouseMoveEvent(e) {
@@ -80,15 +55,6 @@ class f {
   showCursorPointer() {
     this.operator.showDom(`#${this.cursorID}`);
   }
-  setMouseClickEvent(e) {
-    this.operator.addEventListener(`#${this.cursorID}`, {
-      type: "click",
-      listener: e
-    });
-  }
-  fireClickCursorPointer() {
-    this.cursorClickEffect.fireClickEffect(`#${this.cursorID}`);
-  }
   makeStyle() {
     return {
       width: `${this.cursorSize}px`,
@@ -96,6 +62,7 @@ class f {
       position: "absolute",
       top: "0px",
       left: "0px",
+      pointerEvents: "none",
       ...this.cursorStyle
     };
   }
@@ -106,17 +73,17 @@ class f {
     };
   }
 }
-const m = {
+const l = {
   failedCreateCursor: "Failed create cursorMagic dom"
 };
-function y(s) {
+function h(s) {
   return s = s.replace(/^ *?[A-Z]/, function(e) {
     return e.toLowerCase();
   }), s = s.replace(/_/g, "-"), s = s.replace(/ *?[A-Z]/g, function(e, t) {
     return "-" + e.replace(/ /g, "").toLowerCase();
   }), s;
 }
-class n {
+class m {
   createDom(e) {
     const t = this.findParentDom(e.parentDom);
     if (t === null)
@@ -152,8 +119,8 @@ class n {
   }
   lazySetStyle(e, t, r) {
     const o = this.findParentDom(e);
-    o && setTimeout(function(c) {
-      c.setDomStyle(o, t);
+    o && setTimeout(function(n) {
+      n.setDomStyle(o, t);
     }, r, this);
   }
   getDomStyle(e, t) {
@@ -162,31 +129,28 @@ class n {
       return r.style.getPropertyValue(t);
   }
   createEmptyNewDom(e, t, r) {
-    const o = document.createElement(e), c = t === "id" ? "id" : "class";
-    return o.setAttribute(c, r), o;
+    const o = document.createElement(e), n = t === "id" ? "id" : "class";
+    return o.setAttribute(n, r), o;
   }
   findParentDom(e) {
     return document.querySelector(e);
   }
   setDomStyle(e, t) {
     for (const [r, o] of Object.entries(t))
-      typeof o == "string" && e.style.setProperty(y(r), o);
+      typeof o == "string" && e.style.setProperty(h(r), o);
     return e;
   }
 }
-function p(s) {
-  const e = s != null && s.useClickEffect ? new a(new n(), {
-    transform: "scale(1.25)"
-  }) : void 0;
-  d({ ...s, cursorClickEffect: e });
+function y(s) {
+  d({ ...s });
 }
 function d(s) {
-  const e = new f(new n(), s);
+  const e = new c(new m(), s);
   e.createCursor(), e.setMouseMoveEvent((t, r) => {
     e.updatedMousePosition({ x: t, y: r });
-  }), e.setMouseLeaveEvent(() => e.hiddenCursorPointer()), e.setMouseEnterEvent(() => e.showCursorPointer()), e.setMouseClickEvent(() => e.fireClickCursorPointer());
+  }), e.setMouseLeaveEvent(() => e.hiddenCursorPointer()), e.setMouseEnterEvent(() => e.showCursorPointer());
 }
 export {
-  p as createCursorMagic,
+  y as createCursorMagic,
   d as initCursorMagic
 };
