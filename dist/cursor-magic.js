@@ -29,11 +29,11 @@ class f {
   constructor(e, t) {
     i(this, "cursorID", "cursorMagic");
     i(this, "cursorAreaDom", "body");
-    i(this, "cursorSize", 30);
+    i(this, "cursorSize", 50);
     i(this, "cursorStyle", {
       transition: "0.2s",
       transitionTimingFunction: "ease-out",
-      backgroundColor: "#7a7a7ae3",
+      border: "1px solid #b8b8b8",
       borderRadius: "100%"
     });
     i(this, "cursorClickEffect");

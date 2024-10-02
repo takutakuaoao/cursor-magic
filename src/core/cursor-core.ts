@@ -17,11 +17,11 @@ type CustomableCursorStyle = Partial<Omit<CSSStyleDeclaration, 'width' | 'height
 export class CursorCore {
     private cursorID: string = 'cursorMagic'
     private cursorAreaDom: string = 'body'
-    private cursorSize: number = 30
+    private cursorSize: number = 50
     private cursorStyle: CustomableCursorStyle = {
         transition: '0.2s',
         transitionTimingFunction: 'ease-out',
-        backgroundColor: '#7a7a7ae3',
+        border: '1px solid #b8b8b8',
         borderRadius: '100%'
     }
     private cursorClickEffect: CursorClickEffect
